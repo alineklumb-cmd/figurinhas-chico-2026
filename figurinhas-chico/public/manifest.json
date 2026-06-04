@@ -1,0 +1,11 @@
+{
+  "short_name": "Figurinhas Chico",
+  "name": "Figurinhas do Chico 2026",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#020617",
+  "background_color": "#020617",
+  "icons": [
+    { "src": "favicon.ico", "sizes": "64x64", "type": "image/x-icon" }
+  ]
+}
