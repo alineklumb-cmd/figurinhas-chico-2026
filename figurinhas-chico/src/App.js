@@ -99,17 +99,26 @@ function StickerChip({ code, count, onAction, locked }) {
     h: { bg:"#14532d", bd:"#22c55e", tx:"#86efac" },
     r: { bg:"#78350f", bd:"#f59e0b", tx:"#fde68a" },
   }[status];
+  const touchedRef = useRef(false);
+
   const start = () => {
     if (locked) return;
+    touchedRef.current = true;
     pressRef.current = setTimeout(() => { pressRef.current = null; onAction("long"); }, 500);
   };
   const end = (e) => {
     e.preventDefault();
     if (locked) return;
     if (pressRef.current) { clearTimeout(pressRef.current); pressRef.current = null; onAction("tap"); }
+    setTimeout(() => { touchedRef.current = false; }, 300);
+  };
+  const handleClick = () => {
+    if (locked) return;
+    if (touchedRef.current) return; // já tratado pelo touch
+    onAction("tap");
   };
   return (
-    <div onTouchStart={start} onTouchEnd={end}
+    <div onTouchStart={start} onTouchEnd={end} onClick={handleClick}
       style={{ background:C.bg, border:"2px solid "+C.bd, borderRadius:8,
         padding:"5px 1px", display:"flex", alignItems:"center", justifyContent:"center",
         cursor:locked?"default":"pointer", userSelect:"none", position:"relative", minHeight:40,
