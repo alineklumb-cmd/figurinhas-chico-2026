@@ -114,11 +114,16 @@ function StickerChip({ code, count, onAction, locked }) {
   };
   const handleClick = () => {
     if (locked) return;
-    if (touchedRef.current) return; // já tratado pelo touch
+    if (touchedRef.current) return;
     onAction("tap");
   };
+  const handleRightClick = (e) => {
+    e.preventDefault();
+    if (locked) return;
+    onAction("long");
+  };
   return (
-    <div onTouchStart={start} onTouchEnd={end} onClick={handleClick}
+    <div onTouchStart={start} onTouchEnd={end} onClick={handleClick} onContextMenu={handleRightClick}
       style={{ background:C.bg, border:"2px solid "+C.bd, borderRadius:8,
         padding:"5px 1px", display:"flex", alignItems:"center", justifyContent:"center",
         cursor:locked?"default":"pointer", userSelect:"none", position:"relative", minHeight:40,
@@ -347,7 +352,7 @@ export default function App() {
           <div style={{ background:"#14532d", border:"1px solid #22c55e", borderRadius:8,
             padding:"5px 10px", marginBottom:8, fontSize:10, color:"#86efac",
             display:"flex", alignItems:"center", gap:6 }}>
-            ✏️ <span>Modo edição — toque para colar · segure para remover</span>
+            ✏️ <span>Modo edição — clique/toque para colar · botão direito/segurar para remover</span>
           </div>
         )}
 
