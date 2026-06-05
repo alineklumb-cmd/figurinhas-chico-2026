@@ -4,92 +4,90 @@ const CHICO_PHOTO = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgG
 
 const makeTeam = (code) => Array.from({ length: 20 }, (_, i) => `${code}${i + 1}`);
 
-// ─── 48 SELEÇÕES OFICIAIS FIFA COPA 2026 ─────────────────────────────────────
-// Europa (16): GER AUT BEL BIH CZE CRO SCO ESP FRA ENG NOR NED POR SWE SUI TUR
-// África (10): ALG CPV CIV EGY GHA MAR SEN RSA TUN CGO
-// Ásia (9):    AUS IRN JPN JOR KOR QAT KSA UZB IRQ
-// América Sul(6): ARG BRA COL ECU PAR URU
-// CONCACAF (6): CAN MEX USA CUW HAI PAN
-// Oceania (1): NZL
 const ALBUM_OFICIAL = [
-  // ── ESPECIAIS ──
   { id:"FWC", label:"Copa 2026 — Especiais", color:"#f59e0b", group:null,
     stickers:["FWC0","FWC1","FWC2","FWC3","FWC4","FWC5","FWC6","FWC7","FWC8","FWC9","FWC10","FWC11","FWC12","FWC13","FWC14","FWC15","FWC16","FWC17","FWC18","FWC19"] },
   // ── GRUPO A ──
-  { id:"RSA", label:"África do Sul",    color:"#22c55e", group:"A", stickers:makeTeam("RSA") },
   { id:"MEX", label:"México",           color:"#16a34a", group:"A", stickers:makeTeam("MEX") },
+  { id:"RSA", label:"África do Sul",    color:"#22c55e", group:"A", stickers:makeTeam("RSA") },
   { id:"KOR", label:"Coreia do Sul",    color:"#ef4444", group:"A", stickers:makeTeam("KOR") },
   { id:"CZE", label:"Rep. Tcheca",      color:"#60a5fa", group:"A", stickers:makeTeam("CZE") },
   // ── GRUPO B ──
-  { id:"USA", label:"Estados Unidos",   color:"#dc2626", group:"B", stickers:makeTeam("USA") },
-  { id:"JPN", label:"Japão",            color:"#3b82f6", group:"B", stickers:makeTeam("JPN") },
-  { id:"CPV", label:"Cabo Verde",       color:"#38bdf8", group:"B", stickers:makeTeam("CPV") },
-  { id:"URU", label:"Uruguai",          color:"#60a5fa", group:"B", stickers:makeTeam("URU") },
+  { id:"CAN", label:"Canadá",           color:"#f97316", group:"B", stickers:makeTeam("CAN") },
+  { id:"QAT", label:"Catar",            color:"#8b5cf6", group:"B", stickers:makeTeam("QAT") },
+  { id:"SUI", label:"Suíça",            color:"#f87171", group:"B", stickers:makeTeam("SUI") },
+  { id:"BIH", label:"Bósnia e Herz.",   color:"#fbbf24", group:"B", stickers:makeTeam("BIH") },
   // ── GRUPO C ──
-  { id:"GER", label:"Alemanha",         color:"#d4d4d4", group:"C", stickers:makeTeam("GER") },
-  { id:"ECU", label:"Equador",          color:"#facc15", group:"C", stickers:makeTeam("ECU") },
-  { id:"KSA", label:"Arábia Saudita",   color:"#16a34a", group:"C", stickers:makeTeam("KSA") },
-  { id:"CRO", label:"Croácia",          color:"#ef4444", group:"C", stickers:makeTeam("CRO") },
+  { id:"BRA", label:"Brasil",           color:"#fde047", group:"C", stickers:makeTeam("BRA") },
+  { id:"MAR", label:"Marrocos",         color:"#16a34a", group:"C", stickers:makeTeam("MAR") },
+  { id:"HAI", label:"Haiti",            color:"#1d4ed8", group:"C", stickers:makeTeam("HAI") },
+  { id:"SCO", label:"Escócia",          color:"#3b82f6", group:"C", stickers:makeTeam("SCO") },
   // ── GRUPO D ──
-  { id:"BRA", label:"Brasil",           color:"#fde047", group:"D", stickers:makeTeam("BRA") },
-  { id:"SCO", label:"Escócia",          color:"#3b82f6", group:"D", stickers:makeTeam("SCO") },
-  { id:"HAI", label:"Haiti",            color:"#1d4ed8", group:"D", stickers:makeTeam("HAI") },
-  { id:"MAR", label:"Marrocos",         color:"#16a34a", group:"D", stickers:makeTeam("MAR") },
+  { id:"USA", label:"Estados Unidos",   color:"#dc2626", group:"D", stickers:makeTeam("USA") },
+  { id:"PAR", label:"Paraguai",         color:"#f97316", group:"D", stickers:makeTeam("PAR") },
+  { id:"AUS", label:"Austrália",        color:"#fbbf24", group:"D", stickers:makeTeam("AUS") },
+  { id:"TUR", label:"Turquia",          color:"#ef4444", group:"D", stickers:makeTeam("TUR") },
   // ── GRUPO E ──
-  { id:"ESP", label:"Espanha",          color:"#dc2626", group:"E", stickers:makeTeam("ESP") },
-  { id:"AUS", label:"Austrália",        color:"#fbbf24", group:"E", stickers:makeTeam("AUS") },
-  { id:"CGO", label:"Congo DR",         color:"#facc15", group:"E", stickers:makeTeam("CGO") },
-  { id:"BEL", label:"Bélgica",          color:"#ef4444", group:"E", stickers:makeTeam("BEL") },
+  { id:"GER", label:"Alemanha",         color:"#d4d4d4", group:"E", stickers:makeTeam("GER") },
+  { id:"CUW", label:"Curaçao",          color:"#38bdf8", group:"E", stickers:makeTeam("CUW") },
+  { id:"CIV", label:"Costa do Marfim",  color:"#f97316", group:"E", stickers:makeTeam("CIV") },
+  { id:"ECU", label:"Equador",          color:"#facc15", group:"E", stickers:makeTeam("ECU") },
   // ── GRUPO F ──
-  { id:"POR", label:"Portugal",         color:"#dc2626", group:"F", stickers:makeTeam("POR") },
-  { id:"ARG", label:"Argentina",        color:"#38bdf8", group:"F", stickers:makeTeam("ARG") },
-  { id:"NZL", label:"Nova Zelândia",    color:"#1d4ed8", group:"F", stickers:makeTeam("NZL") },
-  { id:"IRN", label:"Irã",              color:"#16a34a", group:"F", stickers:makeTeam("IRN") },
+  { id:"NED", label:"Holanda",          color:"#f97316", group:"F", stickers:makeTeam("NED") },
+  { id:"SWE", label:"Suécia",           color:"#facc15", group:"F", stickers:makeTeam("SWE") },
+  { id:"JPN", label:"Japão",            color:"#3b82f6", group:"F", stickers:makeTeam("JPN") },
+  { id:"TUN", label:"Tunísia",          color:"#dc2626", group:"F", stickers:makeTeam("TUN") },
   // ── GRUPO G ──
-  { id:"FRA", label:"França",           color:"#60a5fa", group:"G", stickers:makeTeam("FRA") },
-  { id:"IRQ", label:"Iraque",           color:"#16a34a", group:"G", stickers:makeTeam("IRQ") },
-  { id:"NOR", label:"Noruega",          color:"#dc2626", group:"G", stickers:makeTeam("NOR") },
-  { id:"SEN", label:"Senegal",          color:"#22c55e", group:"G", stickers:makeTeam("SEN") },
+  { id:"BEL", label:"Bélgica",          color:"#ef4444", group:"G", stickers:makeTeam("BEL") },
+  { id:"EGY", label:"Egito",            color:"#dc2626", group:"G", stickers:makeTeam("EGY") },
+  { id:"IRN", label:"Irã",              color:"#16a34a", group:"G", stickers:makeTeam("IRN") },
+  { id:"NZL", label:"Nova Zelândia",    color:"#1d4ed8", group:"G", stickers:makeTeam("NZL") },
   // ── GRUPO H ──
-  { id:"NED", label:"Holanda",          color:"#f97316", group:"H", stickers:makeTeam("NED") },
-  { id:"QAT", label:"Catar",            color:"#8b5cf6", group:"H", stickers:makeTeam("QAT") },
-  { id:"COL", label:"Colômbia",         color:"#facc15", group:"H", stickers:makeTeam("COL") },
-  { id:"GRE", label:"Grécia",           color:"#3b82f6", group:"H", stickers:makeTeam("GRE") },
+  { id:"ESP", label:"Espanha",          color:"#dc2626", group:"H", stickers:makeTeam("ESP") },
+  { id:"CPV", label:"Cabo Verde",       color:"#38bdf8", group:"H", stickers:makeTeam("CPV") },
+  { id:"KSA", label:"Arábia Saudita",   color:"#16a34a", group:"H", stickers:makeTeam("KSA") },
+  { id:"URU", label:"Uruguai",          color:"#60a5fa", group:"H", stickers:makeTeam("URU") },
   // ── GRUPO I ──
-  { id:"ENG", label:"Inglaterra",       color:"#dc2626", group:"I", stickers:makeTeam("ENG") },
-  { id:"PAR", label:"Paraguai",         color:"#f97316", group:"I", stickers:makeTeam("PAR") },
-  { id:"TUN", label:"Tunísia",          color:"#dc2626", group:"I", stickers:makeTeam("TUN") },
-  { id:"JOR", label:"Jordânia",         color:"#16a34a", group:"I", stickers:makeTeam("JOR") },
+  { id:"FRA", label:"França",           color:"#60a5fa", group:"I", stickers:makeTeam("FRA") },
+  { id:"SEN", label:"Senegal",          color:"#22c55e", group:"I", stickers:makeTeam("SEN") },
+  { id:"NOR", label:"Noruega",          color:"#dc2626", group:"I", stickers:makeTeam("NOR") },
+  { id:"IRQ", label:"Iraque",           color:"#16a34a", group:"I", stickers:makeTeam("IRQ") },
   // ── GRUPO J ──
+  { id:"ARG", label:"Argentina",        color:"#38bdf8", group:"J", stickers:makeTeam("ARG") },
   { id:"ALG", label:"Argélia",          color:"#16a34a", group:"J", stickers:makeTeam("ALG") },
-  { id:"SUI", label:"Suíça",            color:"#f87171", group:"J", stickers:makeTeam("SUI") },
-  { id:"GHA", label:"Gana",             color:"#d4d4d4", group:"J", stickers:makeTeam("GHA") },
-  { id:"CUW", label:"Curaçao",          color:"#38bdf8", group:"J", stickers:makeTeam("CUW") },
+  { id:"AUT", label:"Áustria",          color:"#ef4444", group:"J", stickers:makeTeam("AUT") },
+  { id:"JOR", label:"Jordânia",         color:"#16a34a", group:"J", stickers:makeTeam("JOR") },
   // ── GRUPO K ──
-  { id:"AUT", label:"Áustria",          color:"#ef4444", group:"K", stickers:makeTeam("AUT") },
-  { id:"EGY", label:"Egito",            color:"#dc2626", group:"K", stickers:makeTeam("EGY") },
-  { id:"CAN", label:"Canadá",           color:"#ef4444", group:"K", stickers:makeTeam("CAN") },
+  { id:"POR", label:"Portugal",         color:"#dc2626", group:"K", stickers:makeTeam("POR") },
   { id:"UZB", label:"Uzbequistão",      color:"#38bdf8", group:"K", stickers:makeTeam("UZB") },
+  { id:"COL", label:"Colômbia",         color:"#facc15", group:"K", stickers:makeTeam("COL") },
+  { id:"COD", label:"Congo DR",         color:"#facc15", group:"K", stickers:makeTeam("COD") },
   // ── GRUPO L ──
-  { id:"BIH", label:"Bósnia e Herz.",   color:"#fbbf24", group:"L", stickers:makeTeam("BIH") },
-  { id:"SWE", label:"Suécia",           color:"#facc15", group:"L", stickers:makeTeam("SWE") },
-  { id:"TUR", label:"Turquia",          color:"#ef4444", group:"L", stickers:makeTeam("TUR") },
+  { id:"ENG", label:"Inglaterra",       color:"#dc2626", group:"L", stickers:makeTeam("ENG") },
+  { id:"CRO", label:"Croácia",          color:"#ef4444", group:"L", stickers:makeTeam("CRO") },
+  { id:"GHA", label:"Gana",             color:"#d4d4d4", group:"L", stickers:makeTeam("GHA") },
   { id:"PAN", label:"Panamá",           color:"#f97316", group:"L", stickers:makeTeam("PAN") },
 ];
+
+const COCA_SECTION = {
+  id:"CC", label:"Coca-Cola — Figurinhas Especiais", color:"#ef4444", group:null,
+  stickers: Array.from({length:14}, (_,i) => `CC${i+1}`),
+};
 
 const EXTRA_SECTION = {
   id:"EXTRA", label:"Extra Stickers (Legends) — fora do álbum", color:"#a855f7", group:null,
   stickers: Array.from({length:20}, (_,i) => ["R","B","S","G"].map(v => `ES${i+1}${v}`)).flat(),
 };
 
-const ALL_DATA      = [...ALBUM_OFICIAL, EXTRA_SECTION];
+const ALL_DATA      = [...ALBUM_OFICIAL, COCA_SECTION, EXTRA_SECTION];
 const TOTAL_OFICIAL = ALBUM_OFICIAL.reduce((a,s) => a + s.stickers.length, 0);
+const STORAGE_KEY   = "copa26_v4";
 
 function loadState() {
-  try { const r = localStorage.getItem("copa26_v4"); return r ? JSON.parse(r) : {}; } catch { return {}; }
+  try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : {}; } catch { return {}; }
 }
 function saveState(s) {
-  try { localStorage.setItem("copa26_v4", JSON.stringify(s)); } catch {}
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {}
 }
 
 // ─── CHIP ─────────────────────────────────────────────────────────────────────
@@ -101,7 +99,6 @@ function StickerChip({ code, count, onAction, locked }) {
     h: { bg:"#14532d", bd:"#22c55e", tx:"#86efac" },
     r: { bg:"#78350f", bd:"#f59e0b", tx:"#fde68a" },
   }[status];
-
   const start = () => {
     if (locked) return;
     pressRef.current = setTimeout(() => { pressRef.current = null; onAction("long"); }, 500);
@@ -111,15 +108,13 @@ function StickerChip({ code, count, onAction, locked }) {
     if (locked) return;
     if (pressRef.current) { clearTimeout(pressRef.current); pressRef.current = null; onAction("tap"); }
   };
-
   return (
     <div onTouchStart={start} onTouchEnd={end}
       style={{ background:C.bg, border:"2px solid "+C.bd, borderRadius:8,
         padding:"5px 1px", display:"flex", alignItems:"center", justifyContent:"center",
-        cursor: locked ? "default" : "pointer",
-        userSelect:"none", position:"relative", minHeight:40,
-        opacity: locked && status === "m" ? 0.5 : 1,
-        boxShadow: status==="h" ? "0 0 6px "+C.bd+"44" : "none" }}>
+        cursor:locked?"default":"pointer", userSelect:"none", position:"relative", minHeight:40,
+        opacity:locked && status==="m" ? 0.5 : 1,
+        boxShadow:status==="h"?"0 0 6px "+C.bd+"44":"none" }}>
       {count > 1 && (
         <span style={{ position:"absolute", top:-6, right:-5, background:"#f59e0b", color:"#000",
           borderRadius:"50%", width:15, height:15, fontSize:8, fontWeight:700,
@@ -141,12 +136,10 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
     if (filter === "repet"  && n < 2)   return false;
     return true;
   }), [section.stickers, stickers, search, filter]);
-
   if (!visible.length && (search || filter !== "todas")) return null;
-  const have     = section.stickers.filter(c => (stickers[c]||0) > 0).length;
-  const total    = section.stickers.length;
+  const have = section.stickers.filter(c => (stickers[c]||0) > 0).length;
+  const total = section.stickers.length;
   const complete = have === total;
-
   return (
     <div style={{ marginBottom:9 }}>
       <div onClick={() => setOpen(p=>!p)}
@@ -175,7 +168,7 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
         <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:5, padding:"7px 2px 2px" }}>
           {(search || filter !== "todas" ? visible : section.stickers).map(c => (
             <StickerChip key={c} code={c} count={stickers[c]||0}
-              onAction={type => onUpdate(c, type)} locked={locked} />
+              onAction={type => onUpdate(c, type)} locked={locked}/>
           ))}
         </div>
       )}
@@ -190,23 +183,25 @@ export default function App() {
   const [filter,   setFilter]   = useState("todas");
   const [tab,      setTab]      = useState("album");
   const [toast,    setToast]    = useState(null);
-  const [locked,   setLocked]   = useState(true); // começa bloqueado
+  const [locked,   setLocked]   = useState(true);
+  const [showBackup, setShowBackup] = useState(false);
+  const importRef = useRef(null);
 
   const stats = useMemo(() => {
     const all  = ALBUM_OFICIAL.flatMap(s => s.stickers);
     const have = all.filter(c => (stickers[c]||0) > 0).length;
     const rep  = all.filter(c => (stickers[c]||0) > 1).reduce((a,c) => a+(stickers[c]-1), 0);
-    return { have, missing: TOTAL_OFICIAL-have, repeat:rep, pct: Math.round(have/TOTAL_OFICIAL*100) };
+    return { have, missing:TOTAL_OFICIAL-have, repeat:rep, pct:Math.round(have/TOTAL_OFICIAL*100) };
   }, [stickers]);
 
-  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 1400); };
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 1800); };
 
   const handleUpdate = (code, type) => {
     if (locked) return;
     setStickers(prev => {
-      const n    = prev[code] || 0;
+      const n = prev[code] || 0;
       const next = type === "tap" ? n + 1 : 0;
-      const upd  = { ...prev, [code]: next };
+      const upd = { ...prev, [code]: next };
       saveState(upd);
       if (type === "long")  showToast(code + " removida");
       else if (next === 1)  showToast("✓ " + code + " colada!");
@@ -216,16 +211,53 @@ export default function App() {
   };
 
   const toggleLock = () => {
-    setLocked(p => {
-      showToast(!p ? "🔒 Álbum bloqueado" : "✏️ Modo edição ativado");
-      return !p;
-    });
+    setLocked(p => { showToast(!p ? "🔒 Álbum bloqueado" : "✏️ Modo edição ativado"); return !p; });
+  };
+
+  // ── EXPORTAR BACKUP ──────────────────────────────────────────────────────
+  const handleExport = () => {
+    const data = {
+      versao: "copa26_v4",
+      data: new Date().toLocaleDateString("pt-BR"),
+      figurinhas: stickers,
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type:"application/json" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href     = url;
+    a.download = `figurinhas-chico-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("💾 Backup salvo!");
+    setShowBackup(false);
+  };
+
+  // ── IMPORTAR BACKUP ──────────────────────────────────────────────────────
+  const handleImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        const fig  = data.figurinhas || data; // compatível com formato antigo
+        if (typeof fig !== "object") throw new Error("Formato inválido");
+        setStickers(fig);
+        saveState(fig);
+        showToast("✅ Backup restaurado com sucesso!");
+        setShowBackup(false);
+      } catch {
+        showToast("❌ Arquivo inválido!");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
   };
 
   const teamStats = useMemo(() =>
     ALBUM_OFICIAL.filter(s => s.group).map(s => {
       const have = s.stickers.filter(c => (stickers[c]||0) > 0).length;
-      return { ...s, have, pct: Math.round(have/s.stickers.length*100) };
+      return { ...s, have, pct:Math.round(have/s.stickers.length*100) };
     }).sort((a,b) => b.pct - a.pct),
   [stickers]);
 
@@ -234,6 +266,39 @@ export default function App() {
   return (
     <div style={{ minHeight:"100vh", background:"#020617", fontFamily:"'Segoe UI',system-ui,sans-serif",
       color:"#e2e8f0", paddingBottom:72 }}>
+
+      {/* MODAL BACKUP */}
+      {showBackup && (
+        <div style={{ position:"fixed", inset:0, background:"#000000cc", zIndex:50,
+          display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
+          <div style={{ background:"#0f172a", border:"1px solid #334155", borderRadius:16,
+            padding:24, width:"100%", maxWidth:320 }}>
+            <div style={{ fontSize:16, fontWeight:800, color:"#f8fafc", marginBottom:6 }}>💾 Backup do Álbum</div>
+            <div style={{ fontSize:12, color:"#64748b", marginBottom:20 }}>
+              Salve uma cópia das suas figurinhas ou restaure de um backup anterior.
+            </div>
+
+            <button onClick={handleExport}
+              style={{ width:"100%", padding:"12px", background:"#1d4ed8", border:"none",
+                borderRadius:10, color:"#fff", fontWeight:700, fontSize:13, cursor:"pointer", marginBottom:10 }}>
+              ⬇️ Exportar backup ({stats.have} figurinhas coladas)
+            </button>
+
+            <button onClick={() => importRef.current.click()}
+              style={{ width:"100%", padding:"12px", background:"#1e293b", border:"1px solid #334155",
+                borderRadius:10, color:"#94a3b8", fontWeight:700, fontSize:13, cursor:"pointer", marginBottom:16 }}>
+              ⬆️ Importar backup
+            </button>
+            <input ref={importRef} type="file" accept=".json" onChange={handleImport} style={{ display:"none" }}/>
+
+            <button onClick={() => setShowBackup(false)}
+              style={{ width:"100%", padding:"10px", background:"transparent", border:"1px solid #334155",
+                borderRadius:10, color:"#64748b", fontWeight:700, fontSize:12, cursor:"pointer" }}>
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* HEADER */}
       <div style={{ background:"linear-gradient(180deg,#0c1a3a 0%,#020617 100%)",
@@ -251,25 +316,29 @@ export default function App() {
           </div>
           <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:4 }}>
             <div style={{ fontSize:20, fontWeight:900, color:"#6366f1", fontFamily:"monospace" }}>{stats.pct}%</div>
-            {/* BOTÃO DE BLOQUEIO */}
-            <button onClick={toggleLock}
-              style={{ display:"flex", alignItems:"center", gap:4,
-                background: locked ? "#1e293b" : "#14532d",
-                border: locked ? "1px solid #334155" : "1px solid #22c55e",
-                borderRadius:8, padding:"4px 10px", cursor:"pointer",
-                color: locked ? "#64748b" : "#86efac",
-                fontSize:11, fontWeight:700, transition:"all 0.2s" }}>
-              {locked ? "🔒 Bloqueado" : "✏️ Editando"}
-            </button>
+            <div style={{ display:"flex", gap:5 }}>
+              <button onClick={() => setShowBackup(true)}
+                style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:8,
+                  padding:"4px 8px", cursor:"pointer", color:"#64748b", fontSize:11, fontWeight:700 }}>
+                💾
+              </button>
+              <button onClick={toggleLock}
+                style={{ display:"flex", alignItems:"center", gap:4,
+                  background:locked?"#1e293b":"#14532d",
+                  border:locked?"1px solid #334155":"1px solid #22c55e",
+                  borderRadius:8, padding:"4px 10px", cursor:"pointer",
+                  color:locked?"#64748b":"#86efac", fontSize:11, fontWeight:700, transition:"all 0.2s" }}>
+                {locked ? "🔒 Bloqueado" : "✏️ Editando"}
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* AVISO MODO EDIÇÃO */}
         {!locked && (
           <div style={{ background:"#14532d", border:"1px solid #22c55e", borderRadius:8,
             padding:"5px 10px", marginBottom:8, fontSize:10, color:"#86efac",
             display:"flex", alignItems:"center", gap:6 }}>
-            ✏️ <span>Modo edição ativo — toque para colar · segure para remover</span>
+            ✏️ <span>Modo edição — toque para colar · segure para remover</span>
           </div>
         )}
 
@@ -301,7 +370,7 @@ export default function App() {
             <input value={search} onChange={e=>setSearch(e.target.value)}
               placeholder="ex: BRA1, FRA5, FWC3..."
               style={{ width:"100%", boxSizing:"border-box", background:"#0f172a", border:"1px solid #334155",
-                borderRadius:9, padding:"8px 28px 8px 28px", color:"#e2e8f0", fontSize:12,
+                borderRadius:9, padding:"8px 28px", color:"#e2e8f0", fontSize:12,
                 outline:"none", fontFamily:"'Courier New',monospace" }}/>
             {search && <span onClick={()=>setSearch("")}
               style={{ position:"absolute", right:9, top:"50%", transform:"translateY(-50%)",
@@ -362,16 +431,12 @@ export default function App() {
         display:"flex", justifyContent:"center", gap:14, alignItems:"center" }}>
         {locked
           ? <span style={{ fontSize:10, color:"#475569" }}>🔒 Bloqueado — toque em <b style={{color:"#64748b"}}>Bloqueado</b> para editar</span>
-          : [
-              {bg:"#1e293b",bd:"#334155",l:"Falta"},
-              {bg:"#14532d",bd:"#22c55e",l:"Tenho"},
-              {bg:"#78350f",bd:"#f59e0b",l:"Repetida"}
-            ].map(x=>(
-              <div key={x.l} style={{ display:"flex", alignItems:"center", gap:4 }}>
-                <div style={{ width:11, height:11, background:x.bg, border:"2px solid "+x.bd, borderRadius:3 }}/>
-                <span style={{ fontSize:9, color:"#64748b" }}>{x.l}</span>
-              </div>
-            ))
+          : [{bg:"#1e293b",bd:"#334155",l:"Falta"},{bg:"#14532d",bd:"#22c55e",l:"Tenho"},{bg:"#78350f",bd:"#f59e0b",l:"Repetida"}].map(x=>(
+            <div key={x.l} style={{ display:"flex", alignItems:"center", gap:4 }}>
+              <div style={{ width:11, height:11, background:x.bg, border:"2px solid "+x.bd, borderRadius:3 }}/>
+              <span style={{ fontSize:9, color:"#64748b" }}>{x.l}</span>
+            </div>
+          ))
         }
       </div>
 
