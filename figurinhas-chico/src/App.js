@@ -10,80 +10,207 @@ const makeTeam = (code) => Array.from({ length: 20 }, (_, i) => `${code}${i + 1}
 const ALBUM_OFICIAL = [
   { id:"FWC", label:"Copa 2026 — Especiais", color:"#f59e0b", group:null,
     stickers:["FWC0","FWC1","FWC2","FWC3","FWC4","FWC5","FWC6","FWC7","FWC8","FWC9","FWC10","FWC11","FWC12","FWC13","FWC14","FWC15","FWC16","FWC17","FWC18","FWC19"] },
-  // ── GRUPO A ──
   { id:"MEX", label:"México",           color:"#16a34a", group:"A", stickers:makeTeam("MEX") },
   { id:"RSA", label:"África do Sul",    color:"#22c55e", group:"A", stickers:makeTeam("RSA") },
   { id:"KOR", label:"Coreia do Sul",    color:"#ef4444", group:"A", stickers:makeTeam("KOR") },
   { id:"CZE", label:"Rep. Tcheca",      color:"#60a5fa", group:"A", stickers:makeTeam("CZE") },
-  // ── GRUPO B ──
   { id:"CAN", label:"Canadá",           color:"#f97316", group:"B", stickers:makeTeam("CAN") },
   { id:"QAT", label:"Catar",            color:"#8b5cf6", group:"B", stickers:makeTeam("QAT") },
   { id:"SUI", label:"Suíça",            color:"#f87171", group:"B", stickers:makeTeam("SUI") },
   { id:"BIH", label:"Bósnia e Herz.",   color:"#fbbf24", group:"B", stickers:makeTeam("BIH") },
-  // ── GRUPO C ──
   { id:"BRA", label:"Brasil",           color:"#fde047", group:"C", stickers:makeTeam("BRA") },
   { id:"MAR", label:"Marrocos",         color:"#16a34a", group:"C", stickers:makeTeam("MAR") },
   { id:"HAI", label:"Haiti",            color:"#1d4ed8", group:"C", stickers:makeTeam("HAI") },
   { id:"SCO", label:"Escócia",          color:"#3b82f6", group:"C", stickers:makeTeam("SCO") },
-  // ── GRUPO D ──
   { id:"USA", label:"Estados Unidos",   color:"#dc2626", group:"D", stickers:makeTeam("USA") },
   { id:"PAR", label:"Paraguai",         color:"#f97316", group:"D", stickers:makeTeam("PAR") },
   { id:"AUS", label:"Austrália",        color:"#fbbf24", group:"D", stickers:makeTeam("AUS") },
   { id:"TUR", label:"Turquia",          color:"#ef4444", group:"D", stickers:makeTeam("TUR") },
-  // ── GRUPO E ──
   { id:"GER", label:"Alemanha",         color:"#d4d4d4", group:"E", stickers:makeTeam("GER") },
   { id:"CUW", label:"Curaçao",          color:"#38bdf8", group:"E", stickers:makeTeam("CUW") },
   { id:"CIV", label:"Costa do Marfim",  color:"#f97316", group:"E", stickers:makeTeam("CIV") },
   { id:"ECU", label:"Equador",          color:"#facc15", group:"E", stickers:makeTeam("ECU") },
-  // ── GRUPO F ──
   { id:"NED", label:"Holanda",          color:"#f97316", group:"F", stickers:makeTeam("NED") },
   { id:"SWE", label:"Suécia",           color:"#facc15", group:"F", stickers:makeTeam("SWE") },
   { id:"JPN", label:"Japão",            color:"#3b82f6", group:"F", stickers:makeTeam("JPN") },
   { id:"TUN", label:"Tunísia",          color:"#dc2626", group:"F", stickers:makeTeam("TUN") },
-  // ── GRUPO G ──
   { id:"BEL", label:"Bélgica",          color:"#ef4444", group:"G", stickers:makeTeam("BEL") },
   { id:"EGY", label:"Egito",            color:"#dc2626", group:"G", stickers:makeTeam("EGY") },
   { id:"IRN", label:"Irã",              color:"#16a34a", group:"G", stickers:makeTeam("IRN") },
   { id:"NZL", label:"Nova Zelândia",    color:"#1d4ed8", group:"G", stickers:makeTeam("NZL") },
-  // ── GRUPO H ──
   { id:"ESP", label:"Espanha",          color:"#dc2626", group:"H", stickers:makeTeam("ESP") },
   { id:"CPV", label:"Cabo Verde",       color:"#38bdf8", group:"H", stickers:makeTeam("CPV") },
   { id:"KSA", label:"Arábia Saudita",   color:"#16a34a", group:"H", stickers:makeTeam("KSA") },
   { id:"URU", label:"Uruguai",          color:"#60a5fa", group:"H", stickers:makeTeam("URU") },
-  // ── GRUPO I ──
   { id:"FRA", label:"França",           color:"#60a5fa", group:"I", stickers:makeTeam("FRA") },
   { id:"SEN", label:"Senegal",          color:"#22c55e", group:"I", stickers:makeTeam("SEN") },
   { id:"NOR", label:"Noruega",          color:"#dc2626", group:"I", stickers:makeTeam("NOR") },
   { id:"IRQ", label:"Iraque",           color:"#16a34a", group:"I", stickers:makeTeam("IRQ") },
-  // ── GRUPO J ──
   { id:"ARG", label:"Argentina",        color:"#38bdf8", group:"J", stickers:makeTeam("ARG") },
   { id:"ALG", label:"Argélia",          color:"#16a34a", group:"J", stickers:makeTeam("ALG") },
   { id:"AUT", label:"Áustria",          color:"#ef4444", group:"J", stickers:makeTeam("AUT") },
   { id:"JOR", label:"Jordânia",         color:"#16a34a", group:"J", stickers:makeTeam("JOR") },
-  // ── GRUPO K ──
   { id:"POR", label:"Portugal",         color:"#dc2626", group:"K", stickers:makeTeam("POR") },
   { id:"UZB", label:"Uzbequistão",      color:"#38bdf8", group:"K", stickers:makeTeam("UZB") },
   { id:"COL", label:"Colômbia",         color:"#facc15", group:"K", stickers:makeTeam("COL") },
   { id:"COD", label:"Congo DR",         color:"#facc15", group:"K", stickers:makeTeam("COD") },
-  // ── GRUPO L ──
   { id:"ENG", label:"Inglaterra",       color:"#dc2626", group:"L", stickers:makeTeam("ENG") },
   { id:"CRO", label:"Croácia",          color:"#ef4444", group:"L", stickers:makeTeam("CRO") },
   { id:"GHA", label:"Gana",             color:"#d4d4d4", group:"L", stickers:makeTeam("GHA") },
   { id:"PAN", label:"Panamá",           color:"#f97316", group:"L", stickers:makeTeam("PAN") },
 ];
 
-const COCA_SECTION = {
-  id:"CC", label:"Coca-Cola — Figurinhas Especiais", color:"#ef4444", group:null,
-  stickers: Array.from({length:14}, (_,i) => `CC${i+1}`),
-};
+const COCA_SECTION  = { id:"CC",    label:"Coca-Cola — Figurinhas Especiais",      color:"#ef4444", group:null, stickers: Array.from({length:14}, (_,i) => `CC${i+1}`) };
+const EXTRA_SECTION = { id:"EXTRA", label:"Extra Stickers (Legends) — fora do álbum", color:"#a855f7", group:null, stickers: Array.from({length:20}, (_,i) => ["R","B","S","G"].map(v => `ES${i+1}${v}`)).flat() };
+const ALL_DATA       = [...ALBUM_OFICIAL, COCA_SECTION, EXTRA_SECTION];
+const ALL_CODES      = new Set(ALL_DATA.flatMap(s => s.stickers));
+const TOTAL_OFICIAL  = ALBUM_OFICIAL.reduce((a,s) => a + s.stickers.length, 0);
 
-const EXTRA_SECTION = {
-  id:"EXTRA", label:"Extra Stickers (Legends) — fora do álbum", color:"#a855f7", group:null,
-  stickers: Array.from({length:20}, (_,i) => ["R","B","S","G"].map(v => `ES${i+1}${v}`)).flat(),
-};
+// ─── SCANNER ──────────────────────────────────────────────────────────────────
+function Scanner({ onDetected, onClose }) {
+  const videoRef    = useRef(null);
+  const canvasRef   = useRef(null);
+  const streamRef   = useRef(null);
+  const intervalRef = useRef(null);
+  const [status, setStatus]     = useState("iniciando");
+  const [lastCode, setLastCode] = useState(null);
+  const [scanning, setScanning] = useState(false);
 
-const ALL_DATA      = [...ALBUM_OFICIAL, COCA_SECTION, EXTRA_SECTION];
-const TOTAL_OFICIAL = ALBUM_OFICIAL.reduce((a,s) => a + s.stickers.length, 0);
+  useEffect(() => {
+    const start = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment", width:{ideal:1280}, height:{ideal:720} }
+        });
+        streamRef.current = stream;
+        if (videoRef.current) { videoRef.current.srcObject = stream; }
+        setStatus("pronto");
+      } catch {
+        setStatus("erro");
+      }
+    };
+    start();
+    return () => {
+      clearInterval(intervalRef.current);
+      if (streamRef.current) streamRef.current.getTracks().forEach(t => t.stop());
+    };
+  }, []);
+
+  const captureAndRead = useCallback(async () => {
+    if (scanning) return;
+    const video  = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas || video.readyState < 2) return;
+
+    setScanning(true);
+    setStatus("lendo...");
+
+    canvas.width  = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0);
+
+    try {
+      const { createWorker } = await import("https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js");
+      const worker = await createWorker("eng", 1, {
+        workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js",
+        corePath:   "https://cdn.jsdelivr.net/npm/tesseract.js-core@5/tesseract-core-simd-lstm.wasm.js",
+      });
+      await worker.setParameters({ tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 " });
+      const { data: { text } } = await worker.recognize(canvas);
+      await worker.terminate();
+
+      // Detectar padrão tipo "KOR 9", "BRA 15", "FWC 3"
+      const matches = [...text.matchAll(/\b([A-Z]{2,4})\s*(\d{1,2})\b/g)];
+      let found = null;
+      for (const m of matches) {
+        const code = m[1] + m[2];
+        if (ALL_CODES.has(code)) { found = code; break; }
+      }
+
+      if (found) {
+        setLastCode(found);
+        setStatus("encontrada");
+        onDetected(found);
+      } else {
+        setStatus("não encontrada — tente novamente");
+        setTimeout(() => setStatus("pronto"), 2000);
+      }
+    } catch {
+      setStatus("erro ao ler — tente novamente");
+      setTimeout(() => setStatus("pronto"), 2000);
+    }
+    setScanning(false);
+  }, [scanning, onDetected]);
+
+  const statusColor = {
+    "iniciando":   "#64748b",
+    "pronto":      "#22c55e",
+    "lendo...":    "#f59e0b",
+    "encontrada":  "#22c55e",
+    "erro":        "#ef4444",
+  }[status] || "#64748b";
+
+  return (
+    <div style={{ position:"fixed", inset:0, background:"#000", zIndex:50, display:"flex", flexDirection:"column" }}>
+      {/* HEADER */}
+      <div style={{ background:"#0f172a", padding:"12px 16px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
+        <div>
+          <div style={{ fontSize:14, fontWeight:800, color:"#fde047" }}>📷 Escanear Figurinha</div>
+          <div style={{ fontSize:10, color:"#475569" }}>Aponte para o verso da figurinha</div>
+        </div>
+        <button onClick={onClose}
+          style={{ background:"#1e293b", border:"none", borderRadius:8, padding:"8px 14px",
+            color:"#94a3b8", fontSize:13, fontWeight:700, cursor:"pointer" }}>✕ Fechar</button>
+      </div>
+
+      {/* CÂMERA */}
+      <div style={{ flex:1, position:"relative", overflow:"hidden" }}>
+        <video ref={videoRef} autoPlay playsInline muted
+          style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+        <canvas ref={canvasRef} style={{ display:"none" }}/>
+
+        {/* GUIA DE ENQUADRAMENTO */}
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", pointerEvents:"none" }}>
+          <div style={{ width:"75%", maxWidth:320, aspectRatio:"1.6/1", border:"3px solid #fde047",
+            borderRadius:12, boxShadow:"0 0 0 2000px rgba(0,0,0,0.5)" }}>
+            <div style={{ position:"absolute", top:-20, left:"50%", transform:"translateX(-50%)",
+              fontSize:10, color:"#fde047", whiteSpace:"nowrap", fontWeight:700 }}>
+              Enquadre o verso aqui
+            </div>
+          </div>
+        </div>
+
+        {/* ÚLTIMO CÓDIGO DETECTADO */}
+        {lastCode && (
+          <div style={{ position:"absolute", top:16, left:"50%", transform:"translateX(-50%)",
+            background:"#14532d", border:"2px solid #22c55e", borderRadius:12,
+            padding:"8px 20px", fontSize:16, fontWeight:900, color:"#86efac",
+            fontFamily:"monospace", whiteSpace:"nowrap" }}>
+            ✓ {lastCode} colada!
+          </div>
+        )}
+      </div>
+
+      {/* RODAPÉ */}
+      <div style={{ background:"#0f172a", padding:"16px", flexShrink:0 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
+          <div style={{ width:8, height:8, borderRadius:"50%", background:statusColor, flexShrink:0 }}/>
+          <span style={{ fontSize:12, color:statusColor }}>{status}</span>
+        </div>
+        <button onClick={captureAndRead} disabled={scanning || status === "iniciando" || status === "erro"}
+          style={{ width:"100%", padding:"14px", background: scanning ? "#334155" : "#6366f1",
+            border:"none", borderRadius:12, color:"#fff", fontSize:15, fontWeight:800,
+            cursor: scanning ? "default" : "pointer", transition:"all 0.2s" }}>
+          {scanning ? "⏳ Lendo..." : "📸 Fotografar figurinha"}
+        </button>
+        <div style={{ fontSize:10, color:"#475569", textAlign:"center", marginTop:8 }}>
+          Dica: boa iluminação melhora muito o resultado
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ─── CHIP ─────────────────────────────────────────────────────────────────────
 function StickerChip({ code, count, onAction, locked }) {
@@ -95,7 +222,6 @@ function StickerChip({ code, count, onAction, locked }) {
     h: { bg:"#14532d", bd:"#22c55e", tx:"#86efac" },
     r: { bg:"#78350f", bd:"#f59e0b", tx:"#fde68a" },
   }[status];
-
   const start = () => {
     if (locked) return;
     touchedRef.current = true;
@@ -107,17 +233,8 @@ function StickerChip({ code, count, onAction, locked }) {
     if (pressRef.current) { clearTimeout(pressRef.current); pressRef.current = null; onAction("tap"); }
     setTimeout(() => { touchedRef.current = false; }, 300);
   };
-  const handleClick = () => {
-    if (locked) return;
-    if (touchedRef.current) return;
-    onAction("tap");
-  };
-  const handleRightClick = (e) => {
-    e.preventDefault();
-    if (locked) return;
-    onAction("long");
-  };
-
+  const handleClick    = () => { if (locked || touchedRef.current) return; onAction("tap"); };
+  const handleRightClick = (e) => { e.preventDefault(); if (!locked) onAction("long"); };
   return (
     <div onTouchStart={start} onTouchEnd={end} onClick={handleClick} onContextMenu={handleRightClick}
       style={{ background:C.bg, border:"2px solid "+C.bd, borderRadius:8,
@@ -198,17 +315,15 @@ export default function App() {
   const [locked,     setLocked]     = useState(true);
   const [saving,     setSaving]     = useState(false);
   const [showBackup, setShowBackup] = useState(false);
-  const saveTimer  = useRef(null);
-  const importRef  = useRef(null);
+  const [showScanner,setShowScanner]= useState(false);
+  const saveTimer = useRef(null);
+  const importRef = useRef(null);
 
-  useEffect(() => {
-    return onAuthStateChanged(auth, u => { setUser(u); setLoading(false); });
-  }, []);
+  useEffect(() => { return onAuthStateChanged(auth, u => { setUser(u); setLoading(false); }); }, []);
 
   useEffect(() => {
     if (!user) return;
-    const ref = doc(db, "albuns", user.uid);
-    const unsub = onSnapshot(ref, snap => {
+    const unsub = onSnapshot(doc(db, "albuns", user.uid), snap => {
       if (snap.exists()) setStickers(snap.data().stickers || {});
     });
     return unsub;
@@ -219,31 +334,41 @@ export default function App() {
     clearTimeout(saveTimer.current);
     setSaving(true);
     saveTimer.current = setTimeout(async () => {
-      try {
-        await setDoc(doc(db, "albuns", user.uid), { stickers: data, updatedAt: Date.now() }, { merge: true });
-      } finally { setSaving(false); }
+      try { await setDoc(doc(db, "albuns", user.uid), { stickers: data, updatedAt: Date.now() }, { merge: true }); }
+      finally { setSaving(false); }
     }, 1000);
   }, [user]);
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 1800); };
 
-  const handleUpdate = (code, type) => {
+  const handleUpdate = useCallback((code, type) => {
     if (locked) return;
     setStickers(prev => {
-      const n    = prev[code] || 0;
+      const n = prev[code] || 0;
       const next = type === "tap" ? n + 1 : 0;
-      const upd  = { ...prev, [code]: next };
+      const upd = { ...prev, [code]: next };
       saveToCloud(upd);
       if (type === "long")  showToast(code + " removida");
       else if (next === 1)  showToast("✓ " + code + " colada!");
       else                  showToast(code + " repetida ×" + next);
       return upd;
     });
-  };
+  }, [locked, saveToCloud]);
 
-  const toggleLock = () => {
-    setLocked(p => { showToast(!p ? "🔒 Álbum bloqueado" : "✏️ Modo edição ativado"); return !p; });
-  };
+  // Scanner detectou figurinha — marca automaticamente
+  const handleScanned = useCallback((code) => {
+    setStickers(prev => {
+      const n = prev[code] || 0;
+      const next = n + 1;
+      const upd = { ...prev, [code]: next };
+      saveToCloud(upd);
+      if (next === 1) showToast("📷 " + code + " colada automaticamente!");
+      else            showToast("📷 " + code + " repetida ×" + next);
+      return upd;
+    });
+  }, [saveToCloud]);
+
+  const toggleLock = () => setLocked(p => { showToast(!p ? "🔒 Álbum bloqueado" : "✏️ Modo edição ativado"); return !p; });
 
   const stats = useMemo(() => {
     const all  = ALBUM_OFICIAL.flatMap(s => s.stickers);
@@ -253,13 +378,9 @@ export default function App() {
   }, [stickers]);
 
   const handleExport = () => {
-    const data = { versao:"copa26_firebase", data: new Date().toLocaleDateString("pt-BR"), figurinhas: stickers };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type:"application/json" });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement("a");
-    a.href = url; a.download = `figurinhas-chico-backup-${new Date().toISOString().slice(0,10)}.json`;
-    a.click(); URL.revokeObjectURL(url);
-    showToast("💾 Backup salvo!"); setShowBackup(false);
+    const blob = new Blob([JSON.stringify({ versao:"copa26_firebase", data: new Date().toLocaleDateString("pt-BR"), figurinhas: stickers }, null, 2)], { type:"application/json" });
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `figurinhas-chico-backup-${new Date().toISOString().slice(0,10)}.json` });
+    a.click(); showToast("💾 Backup salvo!"); setShowBackup(false);
   };
 
   const handleImport = (e) => {
@@ -267,9 +388,7 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const data = JSON.parse(ev.target.result);
-        const fig  = data.figurinhas || data;
-        if (typeof fig !== "object") throw new Error();
+        const fig = JSON.parse(ev.target.result).figurinhas || JSON.parse(ev.target.result);
         setStickers(fig); saveToCloud(fig);
         showToast("✅ Backup restaurado!"); setShowBackup(false);
       } catch { showToast("❌ Arquivo inválido!"); }
@@ -286,27 +405,21 @@ export default function App() {
 
   const FILTERS = [{id:"todas",l:"Todas"},{id:"tenho",l:"Tenho"},{id:"faltam",l:"Faltam"},{id:"repet",l:"Repet."}];
 
-  // ── LOADING ────────────────────────────────────────────────────────────────
   if (loading) return (
     <div style={{ minHeight:"100vh", background:"#020617", display:"flex", alignItems:"center", justifyContent:"center" }}>
       <div style={{ color:"#6366f1", fontSize:14 }}>Carregando...</div>
     </div>
   );
 
-  // ── LOGIN ──────────────────────────────────────────────────────────────────
   if (!user) return (
     <div style={{ minHeight:"100vh", background:"#020617", display:"flex", flexDirection:"column",
       alignItems:"center", justifyContent:"center", gap:24, padding:24 }}>
-      <img src={CHICO_PHOTO} alt="Chico"
-        style={{ width:100, height:100, borderRadius:"50%", objectFit:"cover", objectPosition:"top",
-          border:"3px solid #fde047", boxShadow:"0 0 30px #fde04744" }}/>
+      <img src={CHICO_PHOTO} alt="Chico" style={{ width:100, height:100, borderRadius:"50%", objectFit:"cover", objectPosition:"top", border:"3px solid #fde047", boxShadow:"0 0 30px #fde04744" }}/>
       <div style={{ textAlign:"center" }}>
         <div style={{ fontSize:22, fontWeight:900, color:"#fde047" }}>Figurinhas do Chico</div>
         <div style={{ fontSize:13, color:"#475569", marginTop:4 }}>Copa do Mundo 2026 🏆</div>
       </div>
-      <div style={{ fontSize:12, color:"#64748b", textAlign:"center", maxWidth:260 }}>
-        Faça login com sua conta Google para salvar e sincronizar seu álbum em qualquer dispositivo.
-      </div>
+      <div style={{ fontSize:12, color:"#64748b", textAlign:"center", maxWidth:260 }}>Faça login com sua conta Google para salvar e sincronizar seu álbum em qualquer dispositivo.</div>
       <button onClick={() => signInWithPopup(auth, provider)}
         style={{ display:"flex", alignItems:"center", gap:10, background:"#fff", color:"#1e293b",
           border:"none", borderRadius:12, padding:"12px 24px", fontSize:14, fontWeight:700,
@@ -322,46 +435,35 @@ export default function App() {
     </div>
   );
 
-  // ── APP PRINCIPAL ──────────────────────────────────────────────────────────
   return (
-    <div style={{ minHeight:"100vh", background:"#020617", fontFamily:"'Segoe UI',system-ui,sans-serif",
-      color:"#e2e8f0", paddingBottom:72, maxWidth:600, margin:"0 auto" }}>
+    <div style={{ minHeight:"100vh", background:"#020617", fontFamily:"'Segoe UI',system-ui,sans-serif", color:"#e2e8f0", paddingBottom:72, maxWidth:600, margin:"0 auto" }}>
+
+      {/* SCANNER */}
+      {showScanner && <Scanner onDetected={handleScanned} onClose={() => setShowScanner(false)}/>}
 
       {/* MODAL BACKUP */}
       {showBackup && (
-        <div style={{ position:"fixed", inset:0, background:"#000000cc", zIndex:50,
-          display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
+        <div style={{ position:"fixed", inset:0, background:"#000000cc", zIndex:50, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
           <div style={{ background:"#0f172a", border:"1px solid #334155", borderRadius:16, padding:24, width:"100%", maxWidth:320 }}>
             <div style={{ fontSize:16, fontWeight:800, color:"#f8fafc", marginBottom:6 }}>💾 Backup do Álbum</div>
             <div style={{ fontSize:12, color:"#64748b", marginBottom:20 }}>Salve uma cópia ou restaure de um backup anterior.</div>
-            <button onClick={handleExport}
-              style={{ width:"100%", padding:"12px", background:"#1d4ed8", border:"none",
-                borderRadius:10, color:"#fff", fontWeight:700, fontSize:13, cursor:"pointer", marginBottom:10 }}>
+            <button onClick={handleExport} style={{ width:"100%", padding:"12px", background:"#1d4ed8", border:"none", borderRadius:10, color:"#fff", fontWeight:700, fontSize:13, cursor:"pointer", marginBottom:10 }}>
               ⬇️ Exportar backup ({stats.have} figurinhas coladas)
             </button>
-            <button onClick={() => importRef.current.click()}
-              style={{ width:"100%", padding:"12px", background:"#1e293b", border:"1px solid #334155",
-                borderRadius:10, color:"#94a3b8", fontWeight:700, fontSize:13, cursor:"pointer", marginBottom:16 }}>
+            <button onClick={() => importRef.current.click()} style={{ width:"100%", padding:"12px", background:"#1e293b", border:"1px solid #334155", borderRadius:10, color:"#94a3b8", fontWeight:700, fontSize:13, cursor:"pointer", marginBottom:16 }}>
               ⬆️ Importar backup
             </button>
             <input ref={importRef} type="file" accept=".json" onChange={handleImport} style={{ display:"none" }}/>
-            <button onClick={() => setShowBackup(false)}
-              style={{ width:"100%", padding:"10px", background:"transparent", border:"1px solid #334155",
-                borderRadius:10, color:"#64748b", fontWeight:700, fontSize:12, cursor:"pointer" }}>
-              Cancelar
-            </button>
+            <button onClick={() => setShowBackup(false)} style={{ width:"100%", padding:"10px", background:"transparent", border:"1px solid #334155", borderRadius:10, color:"#64748b", fontWeight:700, fontSize:12, cursor:"pointer" }}>Cancelar</button>
           </div>
         </div>
       )}
 
       {/* HEADER */}
-      <div style={{ background:"linear-gradient(180deg,#0c1a3a 0%,#020617 100%)",
-        borderBottom:"1px solid #1e3a5f", padding:"12px 12px 0", position:"sticky", top:0, zIndex:10 }}>
+      <div style={{ background:"linear-gradient(180deg,#0c1a3a 0%,#020617 100%)", borderBottom:"1px solid #1e3a5f", padding:"12px 12px 0", position:"sticky", top:0, zIndex:10 }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:8 }}>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-            <img src={CHICO_PHOTO} alt="Chico"
-              style={{ width:44, height:44, borderRadius:"50%", objectFit:"cover", objectPosition:"top",
-                border:"2px solid #fde047", flexShrink:0 }}/>
+            <img src={CHICO_PHOTO} alt="Chico" style={{ width:44, height:44, borderRadius:"50%", objectFit:"cover", objectPosition:"top", border:"2px solid #fde047", flexShrink:0 }}/>
             <div>
               <div style={{ fontSize:14, fontWeight:800, color:"#fde047" }}>Figurinhas do Chico 2026</div>
               <div style={{ fontSize:9, color:"#475569" }}>🏆 48 seleções · {TOTAL_OFICIAL} figurinhas oficiais</div>
@@ -369,37 +471,29 @@ export default function App() {
           </div>
           <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:4 }}>
             <div style={{ fontSize:20, fontWeight:900, color:"#6366f1", fontFamily:"monospace" }}>{stats.pct}%</div>
-            <div style={{ display:"flex", gap:5 }}>
+            <div style={{ display:"flex", gap:4, flexWrap:"wrap", justifyContent:"flex-end" }}>
               {saving && <span style={{ fontSize:9, color:"#64748b", alignSelf:"center" }}>💾</span>}
+              <button onClick={() => setShowScanner(true)}
+                style={{ background:"#7c3aed", border:"none", borderRadius:8, padding:"4px 8px", cursor:"pointer", color:"#fff", fontSize:11, fontWeight:700 }}>📷</button>
               <button onClick={() => setShowBackup(true)}
-                style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:8,
-                  padding:"4px 8px", cursor:"pointer", color:"#64748b", fontSize:11, fontWeight:700 }}>💾</button>
+                style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:8, padding:"4px 8px", cursor:"pointer", color:"#64748b", fontSize:11, fontWeight:700 }}>💾</button>
               <button onClick={toggleLock}
-                style={{ display:"flex", alignItems:"center", gap:4,
-                  background:locked?"#1e293b":"#14532d",
-                  border:locked?"1px solid #334155":"1px solid #22c55e",
-                  borderRadius:8, padding:"4px 10px", cursor:"pointer",
-                  color:locked?"#64748b":"#86efac", fontSize:11, fontWeight:700 }}>
-                {locked ? "🔒 Bloqueado" : "✏️ Editando"}
+                style={{ background:locked?"#1e293b":"#14532d", border:locked?"1px solid #334155":"1px solid #22c55e", borderRadius:8, padding:"4px 8px", cursor:"pointer", color:locked?"#64748b":"#86efac", fontSize:11, fontWeight:700 }}>
+                {locked ? "🔒" : "✏️"}
               </button>
-              <button onClick={() => signOut(auth)}
-                style={{ fontSize:9, color:"#475569", background:"#1e293b", border:"none",
-                  borderRadius:4, padding:"2px 6px", cursor:"pointer" }}>Sair</button>
+              <button onClick={() => signOut(auth)} style={{ fontSize:9, color:"#475569", background:"#1e293b", border:"none", borderRadius:4, padding:"2px 6px", cursor:"pointer" }}>Sair</button>
             </div>
           </div>
         </div>
 
         {!locked && (
-          <div style={{ background:"#14532d", border:"1px solid #22c55e", borderRadius:8,
-            padding:"5px 10px", marginBottom:8, fontSize:10, color:"#86efac",
-            display:"flex", alignItems:"center", gap:6 }}>
+          <div style={{ background:"#14532d", border:"1px solid #22c55e", borderRadius:8, padding:"5px 10px", marginBottom:8, fontSize:10, color:"#86efac", display:"flex", alignItems:"center", gap:6 }}>
             ✏️ <span>Modo edição — clique/toque para colar · botão direito/segurar para remover</span>
           </div>
         )}
 
         <div style={{ height:5, background:"#1e293b", borderRadius:3, marginBottom:8, overflow:"hidden" }}>
-          <div style={{ width:stats.pct+"%", height:"100%",
-            background:"linear-gradient(90deg,#6366f1,#22c55e)", borderRadius:3, transition:"width 0.4s" }}/>
+          <div style={{ width:stats.pct+"%", height:"100%", background:"linear-gradient(90deg,#6366f1,#22c55e)", borderRadius:3, transition:"width 0.4s" }}/>
         </div>
 
         <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:5, marginBottom:8 }}>
@@ -413,79 +507,54 @@ export default function App() {
 
         <div style={{ display:"flex", gap:0, marginBottom:8, background:"#0f172a", borderRadius:9, padding:3 }}>
           {[["album","📋 Álbum"],["stats","📊 Seleções"]].map(([id,lbl]) => (
-            <button key={id} onClick={() => setTab(id)} style={{ flex:1, padding:"6px 0", border:"none",
-              cursor:"pointer", borderRadius:7, fontWeight:700, fontSize:11,
-              background:tab===id?"#6366f1":"transparent", color:tab===id?"#fff":"#64748b" }}>{lbl}</button>
+            <button key={id} onClick={() => setTab(id)} style={{ flex:1, padding:"6px 0", border:"none", cursor:"pointer", borderRadius:7, fontWeight:700, fontSize:11, background:tab===id?"#6366f1":"transparent", color:tab===id?"#fff":"#64748b" }}>{lbl}</button>
           ))}
         </div>
 
         {tab === "album" && <>
           <div style={{ position:"relative", marginBottom:7 }}>
             <span style={{ position:"absolute", left:9, top:"50%", transform:"translateY(-50%)", color:"#475569", fontSize:12 }}>🔍</span>
-            <input value={search} onChange={e=>setSearch(e.target.value)}
-              placeholder="ex: BRA1, FRA5, FWC3..."
-              style={{ width:"100%", boxSizing:"border-box", background:"#0f172a", border:"1px solid #334155",
-                borderRadius:9, padding:"8px 28px", color:"#e2e8f0", fontSize:12,
-                outline:"none", fontFamily:"'Courier New',monospace" }}/>
-            {search && <span onClick={()=>setSearch("")}
-              style={{ position:"absolute", right:9, top:"50%", transform:"translateY(-50%)",
-                color:"#64748b", cursor:"pointer", fontSize:15 }}>×</span>}
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="ex: BRA1, FRA5, FWC3..."
+              style={{ width:"100%", boxSizing:"border-box", background:"#0f172a", border:"1px solid #334155", borderRadius:9, padding:"8px 28px", color:"#e2e8f0", fontSize:12, outline:"none", fontFamily:"'Courier New',monospace" }}/>
+            {search && <span onClick={()=>setSearch("")} style={{ position:"absolute", right:9, top:"50%", transform:"translateY(-50%)", color:"#64748b", cursor:"pointer", fontSize:15 }}>×</span>}
           </div>
           <div style={{ display:"flex", gap:5, paddingBottom:9 }}>
             {FILTERS.map(f => (
-              <button key={f.id} onClick={()=>setFilter(f.id)} style={{ flex:1, padding:"6px 0",
-                borderRadius:8, border:"none", cursor:"pointer", fontWeight:700, fontSize:10,
-                background:filter===f.id?"#6366f1":"#1e293b", color:filter===f.id?"#fff":"#64748b" }}>{f.l}</button>
+              <button key={f.id} onClick={()=>setFilter(f.id)} style={{ flex:1, padding:"6px 0", borderRadius:8, border:"none", cursor:"pointer", fontWeight:700, fontSize:10, background:filter===f.id?"#6366f1":"#1e293b", color:filter===f.id?"#fff":"#64748b" }}>{f.l}</button>
             ))}
           </div>
         </>}
       </div>
 
-      {/* BODY */}
       <div style={{ padding:"9px 9px 0" }}>
         {tab === "album" && ALL_DATA.map(s => (
-          <Section key={s.id} section={s} stickers={stickers}
-            onUpdate={handleUpdate} search={search} filter={filter} locked={locked}/>
+          <Section key={s.id} section={s} stickers={stickers} onUpdate={handleUpdate} search={search} filter={filter} locked={locked}/>
         ))}
         {tab === "stats" && (
           <div>
-            <div style={{ fontSize:11, fontWeight:700, color:"#475569", marginBottom:8,
-              textTransform:"uppercase", letterSpacing:0.5 }}>
+            <div style={{ fontSize:11, fontWeight:700, color:"#475569", marginBottom:8, textTransform:"uppercase", letterSpacing:0.5 }}>
               {teamStats.filter(t=>t.pct===100).length}/48 seleções completas
             </div>
             {teamStats.map(s => (
-              <div key={s.id} style={{ display:"flex", alignItems:"center", gap:7, marginBottom:6,
-                background:"#0f172a", borderRadius:9, padding:"7px 10px" }}>
-                <span style={{ fontSize:9, background:"#1e293b", color:"#64748b", borderRadius:3,
-                  padding:"1px 4px", fontWeight:700, minWidth:22, textAlign:"center", flexShrink:0 }}>G{s.group}</span>
-                <span style={{ fontSize:11, fontWeight:800, color:s.color,
-                  fontFamily:"'Courier New',monospace", minWidth:36, flexShrink:0 }}>{s.id}</span>
-                <span style={{ fontSize:10, color:"#94a3b8", flex:1, overflow:"hidden",
-                  textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{s.label}</span>
+              <div key={s.id} style={{ display:"flex", alignItems:"center", gap:7, marginBottom:6, background:"#0f172a", borderRadius:9, padding:"7px 10px" }}>
+                <span style={{ fontSize:9, background:"#1e293b", color:"#64748b", borderRadius:3, padding:"1px 4px", fontWeight:700, minWidth:22, textAlign:"center", flexShrink:0 }}>G{s.group}</span>
+                <span style={{ fontSize:11, fontWeight:800, color:s.color, fontFamily:"'Courier New',monospace", minWidth:36, flexShrink:0 }}>{s.id}</span>
+                <span style={{ fontSize:10, color:"#94a3b8", flex:1, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{s.label}</span>
                 <div style={{ width:50, height:5, background:"#1e293b", borderRadius:2, overflow:"hidden", flexShrink:0 }}>
                   <div style={{ width:s.pct+"%", height:"100%", background:s.color, borderRadius:2 }}/>
                 </div>
-                <span style={{ fontSize:10, color:s.pct===100?"#22c55e":"#64748b", fontWeight:700,
-                  minWidth:30, textAlign:"right", flexShrink:0 }}>
+                <span style={{ fontSize:10, color:s.pct===100?"#22c55e":"#64748b", fontWeight:700, minWidth:30, textAlign:"right", flexShrink:0 }}>
                   {s.pct===100?"✅":s.have+"/20"}
                 </span>
               </div>
             ))}
-            <div style={{ marginTop:12, padding:"10px 12px", background:"#0f172a", borderRadius:9 }}>
-              <div style={{ fontSize:10, color:"#475569", marginBottom:4, fontWeight:700, textTransform:"uppercase" }}>Extra Stickers (Legends)</div>
-              {(() => { const es = EXTRA_SECTION.stickers; const h = es.filter(c=>(stickers[c]||0)>0).length;
-                return <div style={{ fontSize:12, color:"#a855f7" }}>{h}/{es.length} coletadas (não contam para o álbum)</div>; })()}
-            </div>
           </div>
         )}
       </div>
 
-      {/* RODAPÉ */}
-      <div style={{ position:"fixed", bottom:0, left:0, right:0, background:"#0c1422",
-        borderTop:"1px solid #1e293b", padding:"7px 14px",
-        display:"flex", justifyContent:"center", gap:14, alignItems:"center" }}>
+      <div style={{ position:"fixed", bottom:0, left:0, right:0, background:"#0c1422", borderTop:"1px solid #1e293b", padding:"7px 14px", display:"flex", justifyContent:"center", gap:14, alignItems:"center" }}>
         {locked
-          ? <span style={{ fontSize:10, color:"#475569" }}>🔒 Bloqueado — toque em <b style={{color:"#64748b"}}>Bloqueado</b> para editar</span>
+          ? <span style={{ fontSize:10, color:"#475569" }}>🔒 Bloqueado · 📷 Escaneie figurinhas com a câmera</span>
           : [{bg:"#1e293b",bd:"#334155",l:"Falta"},{bg:"#14532d",bd:"#22c55e",l:"Tenho"},{bg:"#78350f",bd:"#f59e0b",l:"Repetida"}].map(x=>(
             <div key={x.l} style={{ display:"flex", alignItems:"center", gap:4 }}>
               <div style={{ width:11, height:11, background:x.bg, border:"2px solid "+x.bd, borderRadius:3 }}/>
@@ -496,11 +565,7 @@ export default function App() {
       </div>
 
       {toast && (
-        <div style={{ position:"fixed", bottom:48, left:"50%", transform:"translateX(-50%)",
-          background:"#1e293b", border:"1px solid #334155", borderRadius:20,
-          padding:"6px 16px", fontSize:11, color:"#e2e8f0",
-          boxShadow:"0 4px 20px #00000088", whiteSpace:"nowrap", zIndex:100,
-          animation:"fadeIn 0.2s ease" }}>{toast}</div>
+        <div style={{ position:"fixed", bottom:48, left:"50%", transform:"translateX(-50%)", background:"#1e293b", border:"1px solid #334155", borderRadius:20, padding:"6px 16px", fontSize:11, color:"#e2e8f0", boxShadow:"0 4px 20px #00000088", whiteSpace:"nowrap", zIndex:100, animation:"fadeIn 0.2s ease" }}>{toast}</div>
       )}
 
       <style>{`
