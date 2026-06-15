@@ -66,152 +66,6 @@ const ALL_DATA       = [...ALBUM_OFICIAL, COCA_SECTION, EXTRA_SECTION];
 const ALL_CODES      = new Set(ALL_DATA.flatMap(s => s.stickers));
 const TOTAL_OFICIAL  = ALBUM_OFICIAL.reduce((a,s) => a + s.stickers.length, 0);
 
-// ─── SCANNER ──────────────────────────────────────────────────────────────────
-function Scanner({ onDetected, onClose }) {
-  const videoRef    = useRef(null);
-  const canvasRef   = useRef(null);
-  const streamRef   = useRef(null);
-  const intervalRef = useRef(null);
-  const [status, setStatus]     = useState("iniciando");
-  const [lastCode, setLastCode] = useState(null);
-  const [scanning, setScanning] = useState(false);
-
-  useEffect(() => {
-    const start = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment", width:{ideal:1280}, height:{ideal:720} }
-        });
-        streamRef.current = stream;
-        if (videoRef.current) { videoRef.current.srcObject = stream; }
-        setStatus("pronto");
-      } catch {
-        setStatus("erro");
-      }
-    };
-    start();
-    return () => {
-      clearInterval(intervalRef.current);
-      if (streamRef.current) streamRef.current.getTracks().forEach(t => t.stop());
-    };
-  }, []);
-
-  const captureAndRead = useCallback(async () => {
-    if (scanning) return;
-    const video  = videoRef.current;
-    const canvas = canvasRef.current;
-    if (!video || !canvas || video.readyState < 2) return;
-
-    setScanning(true);
-    setStatus("lendo...");
-
-    canvas.width  = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0);
-
-    try {
-      const { createWorker } = await import("https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js");
-      const worker = await createWorker("eng", 1, {
-        workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js",
-        corePath:   "https://cdn.jsdelivr.net/npm/tesseract.js-core@5/tesseract-core-simd-lstm.wasm.js",
-      });
-      await worker.setParameters({ tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 " });
-      const { data: { text } } = await worker.recognize(canvas);
-      await worker.terminate();
-
-      // Detectar padrão tipo "KOR 9", "BRA 15", "FWC 3"
-      const matches = [...text.matchAll(/\b([A-Z]{2,4})\s*(\d{1,2})\b/g)];
-      let found = null;
-      for (const m of matches) {
-        const code = m[1] + m[2];
-        if (ALL_CODES.has(code)) { found = code; break; }
-      }
-
-      if (found) {
-        setLastCode(found);
-        setStatus("encontrada");
-        onDetected(found);
-      } else {
-        setStatus("não encontrada — tente novamente");
-        setTimeout(() => setStatus("pronto"), 2000);
-      }
-    } catch {
-      setStatus("erro ao ler — tente novamente");
-      setTimeout(() => setStatus("pronto"), 2000);
-    }
-    setScanning(false);
-  }, [scanning, onDetected]);
-
-  const statusColor = {
-    "iniciando":   "#64748b",
-    "pronto":      "#22c55e",
-    "lendo...":    "#f59e0b",
-    "encontrada":  "#22c55e",
-    "erro":        "#ef4444",
-  }[status] || "#64748b";
-
-  return (
-    <div style={{ position:"fixed", inset:0, background:"#000", zIndex:50, display:"flex", flexDirection:"column" }}>
-      {/* HEADER */}
-      <div style={{ background:"#0f172a", padding:"12px 16px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
-        <div>
-          <div style={{ fontSize:14, fontWeight:800, color:"#fde047" }}>📷 Escanear Figurinha</div>
-          <div style={{ fontSize:10, color:"#475569" }}>Aponte para o verso da figurinha</div>
-        </div>
-        <button onClick={onClose}
-          style={{ background:"#1e293b", border:"none", borderRadius:8, padding:"8px 14px",
-            color:"#94a3b8", fontSize:13, fontWeight:700, cursor:"pointer" }}>✕ Fechar</button>
-      </div>
-
-      {/* CÂMERA */}
-      <div style={{ flex:1, position:"relative", overflow:"hidden" }}>
-        <video ref={videoRef} autoPlay playsInline muted
-          style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
-        <canvas ref={canvasRef} style={{ display:"none" }}/>
-
-        {/* GUIA DE ENQUADRAMENTO */}
-        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", pointerEvents:"none" }}>
-          <div style={{ width:"75%", maxWidth:320, aspectRatio:"1.6/1", border:"3px solid #fde047",
-            borderRadius:12, boxShadow:"0 0 0 2000px rgba(0,0,0,0.5)" }}>
-            <div style={{ position:"absolute", top:-20, left:"50%", transform:"translateX(-50%)",
-              fontSize:10, color:"#fde047", whiteSpace:"nowrap", fontWeight:700 }}>
-              Enquadre o verso aqui
-            </div>
-          </div>
-        </div>
-
-        {/* ÚLTIMO CÓDIGO DETECTADO */}
-        {lastCode && (
-          <div style={{ position:"absolute", top:16, left:"50%", transform:"translateX(-50%)",
-            background:"#14532d", border:"2px solid #22c55e", borderRadius:12,
-            padding:"8px 20px", fontSize:16, fontWeight:900, color:"#86efac",
-            fontFamily:"monospace", whiteSpace:"nowrap" }}>
-            ✓ {lastCode} colada!
-          </div>
-        )}
-      </div>
-
-      {/* RODAPÉ */}
-      <div style={{ background:"#0f172a", padding:"16px", flexShrink:0 }}>
-        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
-          <div style={{ width:8, height:8, borderRadius:"50%", background:statusColor, flexShrink:0 }}/>
-          <span style={{ fontSize:12, color:statusColor }}>{status}</span>
-        </div>
-        <button onClick={captureAndRead} disabled={scanning || status === "iniciando" || status === "erro"}
-          style={{ width:"100%", padding:"14px", background: scanning ? "#334155" : "#6366f1",
-            border:"none", borderRadius:12, color:"#fff", fontSize:15, fontWeight:800,
-            cursor: scanning ? "default" : "pointer", transition:"all 0.2s" }}>
-          {scanning ? "⏳ Lendo..." : "📸 Fotografar figurinha"}
-        </button>
-        <div style={{ fontSize:10, color:"#475569", textAlign:"center", marginTop:8 }}>
-          Dica: boa iluminação melhora muito o resultado
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── CHIP ─────────────────────────────────────────────────────────────────────
 function StickerChip({ code, count, onAction, locked }) {
   const pressRef   = useRef(null);
@@ -315,7 +169,6 @@ export default function App() {
   const [locked,     setLocked]     = useState(true);
   const [saving,     setSaving]     = useState(false);
   const [showBackup, setShowBackup] = useState(false);
-  const [showScanner,setShowScanner]= useState(false);
   const saveTimer = useRef(null);
   const importRef = useRef(null);
 
@@ -355,18 +208,6 @@ export default function App() {
     });
   }, [locked, saveToCloud]);
 
-  // Scanner detectou figurinha — marca automaticamente
-  const handleScanned = useCallback((code) => {
-    setStickers(prev => {
-      const n = prev[code] || 0;
-      const next = n + 1;
-      const upd = { ...prev, [code]: next };
-      saveToCloud(upd);
-      if (next === 1) showToast("📷 " + code + " colada automaticamente!");
-      else            showToast("📷 " + code + " repetida ×" + next);
-      return upd;
-    });
-  }, [saveToCloud]);
 
   const toggleLock = () => setLocked(p => { showToast(!p ? "🔒 Álbum bloqueado" : "✏️ Modo edição ativado"); return !p; });
 
@@ -438,9 +279,6 @@ export default function App() {
   return (
     <div style={{ minHeight:"100vh", background:"#020617", fontFamily:"'Segoe UI',system-ui,sans-serif", color:"#e2e8f0", paddingBottom:72, maxWidth:600, margin:"0 auto" }}>
 
-      {/* SCANNER */}
-      {showScanner && <Scanner onDetected={handleScanned} onClose={() => setShowScanner(false)}/>}
-
       {/* MODAL BACKUP */}
       {showBackup && (
         <div style={{ position:"fixed", inset:0, background:"#000000cc", zIndex:50, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
@@ -473,8 +311,6 @@ export default function App() {
             <div style={{ fontSize:20, fontWeight:900, color:"#6366f1", fontFamily:"monospace" }}>{stats.pct}%</div>
             <div style={{ display:"flex", gap:4, flexWrap:"wrap", justifyContent:"flex-end" }}>
               {saving && <span style={{ fontSize:9, color:"#64748b", alignSelf:"center" }}>💾</span>}
-              <button onClick={() => setShowScanner(true)}
-                style={{ background:"#7c3aed", border:"none", borderRadius:8, padding:"4px 8px", cursor:"pointer", color:"#fff", fontSize:11, fontWeight:700 }}>📷</button>
               <button onClick={() => setShowBackup(true)}
                 style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:8, padding:"4px 8px", cursor:"pointer", color:"#64748b", fontSize:11, fontWeight:700 }}>💾</button>
               <button onClick={toggleLock}
@@ -554,7 +390,7 @@ export default function App() {
 
       <div style={{ position:"fixed", bottom:0, left:0, right:0, background:"#0c1422", borderTop:"1px solid #1e293b", padding:"7px 14px", display:"flex", justifyContent:"center", gap:14, alignItems:"center" }}>
         {locked
-          ? <span style={{ fontSize:10, color:"#475569" }}>🔒 Bloqueado · 📷 Escaneie figurinhas com a câmera</span>
+          ? <span style={{ fontSize:10, color:"#475569" }}>🔒 Bloqueado — toque em <b style={{color:"#64748b"}}>Bloqueado</b> para editar</span>
           : [{bg:"#1e293b",bd:"#334155",l:"Falta"},{bg:"#14532d",bd:"#22c55e",l:"Tenho"},{bg:"#78350f",bd:"#f59e0b",l:"Repetida"}].map(x=>(
             <div key={x.l} style={{ display:"flex", alignItems:"center", gap:4 }}>
               <div style={{ width:11, height:11, background:x.bg, border:"2px solid "+x.bd, borderRadius:3 }}/>
