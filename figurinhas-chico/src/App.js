@@ -318,7 +318,7 @@ async function gerarPDF(stickers, userName) {
     doc.text("Figurinhas do Chico 2026  •  figurinhas-chico-2026.vercel.app",105,294,{align:"center"});
     doc.text(`Página ${i} de ${pages}`,200,294,{align:"right"});
   }
-  doc.save(`figurinhas-chico-${hoje.replace(/\//g,"-")}.pdf`);
+  doc.save(`figurinhas-chico-${hoje.split("/").join("-")}.pdf`);
 }
 
 // ─── SALA DE TROCAS ───────────────────────────────────────────────────────────
