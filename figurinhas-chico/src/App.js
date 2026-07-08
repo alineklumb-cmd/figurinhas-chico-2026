@@ -441,14 +441,22 @@ function StickerChip({ code, count, onAction, locked }) {
   const end   = (e) => { e.preventDefault(); if(locked)return; if(pressRef.current){clearTimeout(pressRef.current);pressRef.current=null;onAction("tap");} setTimeout(()=>{touchedRef.current=false;},300); };
   const handleClick      = () => { if(locked||touchedRef.current)return; onAction("tap"); };
   const handleRightClick = (e) => { e.preventDefault(); if(!locked)onAction("long"); };
+  // Extrair prefixo e buscar bandeira real
+  const prefix = code.replace(/\d+$/, "");
+  const isoMap = {"MEX":"mx","RSA":"za","KOR":"kr","CZE":"cz","CAN":"ca","BIH":"ba","QAT":"qa","SUI":"ch","BRA":"br","MAR":"ma","HAI":"ht","SCO":"gb-sct","USA":"us","PAR":"py","AUS":"au","TUR":"tr","GER":"de","CUW":"cw","CIV":"ci","ECU":"ec","NED":"nl","JPN":"jp","SWE":"se","TUN":"tn","BEL":"be","EGY":"eg","IRN":"ir","NZL":"nz","ESP":"es","CPV":"cv","KSA":"sa","URU":"uy","FRA":"fr","SEN":"sn","IRQ":"iq","NOR":"no","ARG":"ar","ALG":"dz","AUT":"at","JOR":"jo","POR":"pt","COD":"cd","UZB":"uz","COL":"co","ENG":"gb-eng","CRO":"hr","GHA":"gh","PAN":"pa"};
+  const iso = isoMap[prefix];
+  const flagUrl = iso ? "https://flagcdn.com/32x24/"+iso+".png" : null;
+  const special = {"FWC":"🏆","CC":"🥤","EXTRA":"⭐","ES":"⭐"}[prefix] || null;
   return (
     <div onTouchStart={start} onTouchEnd={end} onClick={handleClick} onContextMenu={handleRightClick}
-      style={{ background:C.bg, border:"2px solid "+C.bd, borderRadius:8, padding:"5px 1px",
-        display:"flex", alignItems:"center", justifyContent:"center",
-        cursor:locked?"default":"pointer", userSelect:"none", position:"relative", minHeight:40,
+      style={{ background:C.bg, border:"2px solid "+C.bd, borderRadius:8, padding:"5px 2px",
+        display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+        cursor:locked?"default":"pointer", userSelect:"none", position:"relative", minHeight:50,
         opacity:locked&&status==="m"?0.5:1, boxShadow:status==="h"?"0 0 6px "+C.bd+"44":"none" }}>
-      {count>1&&<span style={{ position:"absolute",top:-6,right:-5,background:"#f59e0b",color:"#000",borderRadius:"50%",width:15,height:15,fontSize:8,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"monospace" }}>×{count}</span>}
-      <span style={{ fontSize:9,fontWeight:700,color:C.tx,fontFamily:"'Courier New',monospace",textAlign:"center" }}>{code}</span>
+      {count>1&&<span style={{ position:"absolute",top:-6,right:-5,background:"#f59e0b",color:"#000",borderRadius:"50%",width:16,height:16,fontSize:9,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"monospace" }}>×{count}</span>}
+      {flagUrl && <img src={flagUrl} alt={prefix} style={{ width:24,height:18,objectFit:"cover",borderRadius:2,marginBottom:2,opacity:status==="m"?0.4:1 }}/>}
+      {!flagUrl && special && <span style={{ fontSize:13,lineHeight:1,marginBottom:2 }}>{special}</span>}
+      <span style={{ fontSize:10,fontWeight:700,color:C.tx,fontFamily:"'Courier New',monospace",textAlign:"center",lineHeight:1 }}>{code}</span>
     </div>
   );
 }
@@ -472,7 +480,10 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
       <div onClick={()=>setOpen(p=>!p)} style={{ display:"flex",alignItems:"center",justifyContent:"space-between",padding:"8px 12px",background:"#0f172a",borderLeft:"4px solid "+section.color,borderRadius:10,cursor:"pointer" }}>
         <div style={{ display:"flex",alignItems:"center",gap:6,minWidth:0 }}>
           <span style={{ fontSize:11,color:"#94a3b8",flexShrink:0,display:"inline-block",transition:"transform 0.2s",transform:open?"rotate(0deg)":"rotate(-90deg)" }}>▼</span>
-          {section.group&&<span style={{ fontSize:9,background:"#1e293b",color:"#64748b",borderRadius:4,padding:"1px 4px",fontWeight:700,flexShrink:0 }}>G{section.group}</span>}
+          {section.group&&<span style={{ fontSize:9,background:"#1e293b",color:"#64748b",borderRadius:4,padding:"1px 4px",fontWeight:700,flexShrink:0 }>G{section.group}</span>}
+          {({"MEX":"mx","RSA":"za","KOR":"kr","CZE":"cz","CAN":"ca","BIH":"ba","QAT":"qa","SUI":"ch","BRA":"br","MAR":"ma","HAI":"ht","SCO":"gb-sct","USA":"us","PAR":"py","AUS":"au","TUR":"tr","GER":"de","CUW":"cw","CIV":"ci","ECU":"ec","NED":"nl","JPN":"jp","SWE":"se","TUN":"tn","BEL":"be","EGY":"eg","IRN":"ir","NZL":"nz","ESP":"es","CPV":"cv","KSA":"sa","URU":"uy","FRA":"fr","SEN":"sn","IRQ":"iq","NOR":"no","ARG":"ar","ALG":"dz","AUT":"at","JOR":"jo","POR":"pt","COD":"cd","UZB":"uz","COL":"co","ENG":"gb-eng","CRO":"hr","GHA":"gh","PAN":"pa"})[section.id] && <img src={"https://flagcdn.com/20x15/"+(({"MEX":"mx","RSA":"za","KOR":"kr","CZE":"cz","CAN":"ca","BIH":"ba","QAT":"qa","SUI":"ch","BRA":"br","MAR":"ma","HAI":"ht","SCO":"gb-sct","USA":"us","PAR":"py","AUS":"au","TUR":"tr","GER":"de","CUW":"cw","CIV":"ci","ECU":"ec","NED":"nl","JPN":"jp","SWE":"se","TUN":"tn","BEL":"be","EGY":"eg","IRN":"ir","NZL":"nz","ESP":"es","CPV":"cv","KSA":"sa","URU":"uy","FRA":"fr","SEN":"sn","IRQ":"iq","NOR":"no","ARG":"ar","ALG":"dz","AUT":"at","JOR":"jo","POR":"pt","COD":"cd","UZB":"uz","COL":"co","ENG":"gb-eng","CRO":"hr","GHA":"gh","PAN":"pa"})[section.id])+".png"} alt={section.id} style={{ width:22,height:16,objectFit:"cover",borderRadius:2,flexShrink:0 }}/>}
+          {section.id==="FWC"&&<span style={{fontSize:14,flexShrink:0}}>🏆</span>}
+          {section.id==="CC"&&<span style={{fontSize:14,flexShrink:0}}>🥤</span>}
           <span style={{ fontSize:11,fontWeight:800,color:section.color,fontFamily:"'Courier New',monospace",flexShrink:0 }}>{section.id}</span>
           <span style={{ fontSize:10,color:"#94a3b8",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{section.label}</span>
         </div>
