@@ -477,7 +477,7 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
       <div onClick={()=>setOpen(p=>!p)} style={{ display:"flex",alignItems:"center",justifyContent:"space-between",padding:"8px 12px",background:"#0f172a",borderLeft:"4px solid "+section.color,borderRadius:10,cursor:"pointer" }}>
         <div style={{ display:"flex",alignItems:"center",gap:6,minWidth:0 }}>
           <span style={{ fontSize:11,color:"#94a3b8",flexShrink:0,display:"inline-block",transition:"transform 0.2s",transform:open?"rotate(0deg)":"rotate(-90deg)" }}>▼</span>
-          {section.group&&<span style={{ fontSize:9,background:"#1e293b",color:"#64748b",borderRadius:4,padding:"1px 4px",fontWeight:700,flexShrink:0 }>G{section.group}</span>}
+          {section.group&&<span style={{ fontSize:9,background:"#1e293b",color:"#64748b",borderRadius:4,padding:"1px 4px",fontWeight:700,flexShrink:0 }}>G{section.group}</span>}
           {getFlagUrl(section.id,"20x15") && <img src={getFlagUrl(section.id,"20x15")} alt={section.id} style={{ width:22,height:16,objectFit:"cover",borderRadius:2,flexShrink:0 }}/>}
           {SPECIAL_ICON[section.id] && <span style={{fontSize:14,flexShrink:0}}>{SPECIAL_ICON[section.id]}</span>}
           <span style={{ fontSize:11,fontWeight:800,color:section.color,fontFamily:"'Courier New',monospace",flexShrink:0 }}>{section.id}</span>
