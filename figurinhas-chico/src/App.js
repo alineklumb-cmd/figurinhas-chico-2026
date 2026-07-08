@@ -441,12 +441,9 @@ function StickerChip({ code, count, onAction, locked }) {
   const end   = (e) => { e.preventDefault(); if(locked)return; if(pressRef.current){clearTimeout(pressRef.current);pressRef.current=null;onAction("tap");} setTimeout(()=>{touchedRef.current=false;},300); };
   const handleClick      = () => { if(locked||touchedRef.current)return; onAction("tap"); };
   const handleRightClick = (e) => { e.preventDefault(); if(!locked)onAction("long"); };
-  // Extrair prefixo e buscar bandeira real
-  const prefix = code.replace(/\d+$/, "");
-  const isoMap = {"MEX":"mx","RSA":"za","KOR":"kr","CZE":"cz","CAN":"ca","BIH":"ba","QAT":"qa","SUI":"ch","BRA":"br","MAR":"ma","HAI":"ht","SCO":"gb-sct","USA":"us","PAR":"py","AUS":"au","TUR":"tr","GER":"de","CUW":"cw","CIV":"ci","ECU":"ec","NED":"nl","JPN":"jp","SWE":"se","TUN":"tn","BEL":"be","EGY":"eg","IRN":"ir","NZL":"nz","ESP":"es","CPV":"cv","KSA":"sa","URU":"uy","FRA":"fr","SEN":"sn","IRQ":"iq","NOR":"no","ARG":"ar","ALG":"dz","AUT":"at","JOR":"jo","POR":"pt","COD":"cd","UZB":"uz","COL":"co","ENG":"gb-eng","CRO":"hr","GHA":"gh","PAN":"pa"};
-  const iso = isoMap[prefix];
-  const flagUrl = iso ? "https://flagcdn.com/32x24/"+iso+".png" : null;
-  const special = {"FWC":"🏆","CC":"🥤","EXTRA":"⭐","ES":"⭐"}[prefix] || null;
+  const prefix  = code.replace(/\d+$/, "");
+  const flagUrl = getFlagUrl(prefix);
+  const special = SPECIAL_ICON[prefix] || null;
   return (
     <div onTouchStart={start} onTouchEnd={end} onClick={handleClick} onContextMenu={handleRightClick}
       style={{ background:C.bg, border:"2px solid "+C.bd, borderRadius:8, padding:"5px 2px",
@@ -481,9 +478,8 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
         <div style={{ display:"flex",alignItems:"center",gap:6,minWidth:0 }}>
           <span style={{ fontSize:11,color:"#94a3b8",flexShrink:0,display:"inline-block",transition:"transform 0.2s",transform:open?"rotate(0deg)":"rotate(-90deg)" }}>▼</span>
           {section.group&&<span style={{ fontSize:9,background:"#1e293b",color:"#64748b",borderRadius:4,padding:"1px 4px",fontWeight:700,flexShrink:0 }>G{section.group}</span>}
-          {({"MEX":"mx","RSA":"za","KOR":"kr","CZE":"cz","CAN":"ca","BIH":"ba","QAT":"qa","SUI":"ch","BRA":"br","MAR":"ma","HAI":"ht","SCO":"gb-sct","USA":"us","PAR":"py","AUS":"au","TUR":"tr","GER":"de","CUW":"cw","CIV":"ci","ECU":"ec","NED":"nl","JPN":"jp","SWE":"se","TUN":"tn","BEL":"be","EGY":"eg","IRN":"ir","NZL":"nz","ESP":"es","CPV":"cv","KSA":"sa","URU":"uy","FRA":"fr","SEN":"sn","IRQ":"iq","NOR":"no","ARG":"ar","ALG":"dz","AUT":"at","JOR":"jo","POR":"pt","COD":"cd","UZB":"uz","COL":"co","ENG":"gb-eng","CRO":"hr","GHA":"gh","PAN":"pa"})[section.id] && <img src={"https://flagcdn.com/20x15/"+(({"MEX":"mx","RSA":"za","KOR":"kr","CZE":"cz","CAN":"ca","BIH":"ba","QAT":"qa","SUI":"ch","BRA":"br","MAR":"ma","HAI":"ht","SCO":"gb-sct","USA":"us","PAR":"py","AUS":"au","TUR":"tr","GER":"de","CUW":"cw","CIV":"ci","ECU":"ec","NED":"nl","JPN":"jp","SWE":"se","TUN":"tn","BEL":"be","EGY":"eg","IRN":"ir","NZL":"nz","ESP":"es","CPV":"cv","KSA":"sa","URU":"uy","FRA":"fr","SEN":"sn","IRQ":"iq","NOR":"no","ARG":"ar","ALG":"dz","AUT":"at","JOR":"jo","POR":"pt","COD":"cd","UZB":"uz","COL":"co","ENG":"gb-eng","CRO":"hr","GHA":"gh","PAN":"pa"})[section.id])+".png"} alt={section.id} style={{ width:22,height:16,objectFit:"cover",borderRadius:2,flexShrink:0 }}/>}
-          {section.id==="FWC"&&<span style={{fontSize:14,flexShrink:0}}>🏆</span>}
-          {section.id==="CC"&&<span style={{fontSize:14,flexShrink:0}}>🥤</span>}
+          {getFlagUrl(section.id,"20x15") && <img src={getFlagUrl(section.id,"20x15")} alt={section.id} style={{ width:22,height:16,objectFit:"cover",borderRadius:2,flexShrink:0 }}/>}
+          {SPECIAL_ICON[section.id] && <span style={{fontSize:14,flexShrink:0}}>{SPECIAL_ICON[section.id]}</span>}
           <span style={{ fontSize:11,fontWeight:800,color:section.color,fontFamily:"'Courier New',monospace",flexShrink:0 }}>{section.id}</span>
           <span style={{ fontSize:10,color:"#94a3b8",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{section.label}</span>
         </div>
