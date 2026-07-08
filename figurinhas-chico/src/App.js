@@ -9,54 +9,55 @@ const makeTeam = (code) => Array.from({ length: 20 }, (_, i) => `${code}${i + 1}
 const ALBUM_OFICIAL = [
   { id:"FWC", label:"Copa 2026 — Especiais", color:"#f59e0b", group:null,
     stickers:["FWC0","FWC1","FWC2","FWC3","FWC4","FWC5","FWC6","FWC7","FWC8","FWC9","FWC10","FWC11","FWC12","FWC13","FWC14","FWC15","FWC16","FWC17","FWC18","FWC19"] },
-  { id:"MEX", label:"México",           color:"#16a34a", group:"A", stickers:makeTeam("MEX") },
-  { id:"RSA", label:"África do Sul",    color:"#22c55e", group:"A", stickers:makeTeam("RSA") },
-  { id:"KOR", label:"Coreia do Sul",    color:"#ef4444", group:"A", stickers:makeTeam("KOR") },
-  { id:"CZE", label:"Rep. Tcheca",      color:"#60a5fa", group:"A", stickers:makeTeam("CZE") },
-  { id:"CAN", label:"Canadá",           color:"#f97316", group:"B", stickers:makeTeam("CAN") },
-  { id:"QAT", label:"Catar",            color:"#8b5cf6", group:"B", stickers:makeTeam("QAT") },
-  { id:"SUI", label:"Suíça",            color:"#f87171", group:"B", stickers:makeTeam("SUI") },
-  { id:"BIH", label:"Bósnia e Herz.",   color:"#fbbf24", group:"B", stickers:makeTeam("BIH") },
-  { id:"BRA", label:"Brasil",           color:"#fde047", group:"C", stickers:makeTeam("BRA") },
-  { id:"MAR", label:"Marrocos",         color:"#16a34a", group:"C", stickers:makeTeam("MAR") },
-  { id:"HAI", label:"Haiti",            color:"#1d4ed8", group:"C", stickers:makeTeam("HAI") },
-  { id:"SCO", label:"Escócia",          color:"#3b82f6", group:"C", stickers:makeTeam("SCO") },
-  { id:"USA", label:"Estados Unidos",   color:"#dc2626", group:"D", stickers:makeTeam("USA") },
-  { id:"PAR", label:"Paraguai",         color:"#f97316", group:"D", stickers:makeTeam("PAR") },
-  { id:"AUS", label:"Austrália",        color:"#fbbf24", group:"D", stickers:makeTeam("AUS") },
-  { id:"TUR", label:"Turquia",          color:"#ef4444", group:"D", stickers:makeTeam("TUR") },
-  { id:"GER", label:"Alemanha",         color:"#d4d4d4", group:"E", stickers:makeTeam("GER") },
-  { id:"CUW", label:"Curaçao",          color:"#38bdf8", group:"E", stickers:makeTeam("CUW") },
-  { id:"CIV", label:"Costa do Marfim",  color:"#f97316", group:"E", stickers:makeTeam("CIV") },
-  { id:"ECU", label:"Equador",          color:"#facc15", group:"E", stickers:makeTeam("ECU") },
-  { id:"NED", label:"Holanda",          color:"#f97316", group:"F", stickers:makeTeam("NED") },
-  { id:"JPN", label:"Japão",            color:"#3b82f6", group:"F", stickers:makeTeam("JPN") },
-  { id:"SWE", label:"Suécia",           color:"#facc15", group:"F", stickers:makeTeam("SWE") },
-  { id:"TUN", label:"Tunísia",          color:"#dc2626", group:"F", stickers:makeTeam("TUN") },
-  { id:"BEL", label:"Bélgica",          color:"#ef4444", group:"G", stickers:makeTeam("BEL") },
-  { id:"EGY", label:"Egito",            color:"#dc2626", group:"G", stickers:makeTeam("EGY") },
-  { id:"IRN", label:"Irã",              color:"#16a34a", group:"G", stickers:makeTeam("IRN") },
-  { id:"NZL", label:"Nova Zelândia",    color:"#1d4ed8", group:"G", stickers:makeTeam("NZL") },
-  { id:"ESP", label:"Espanha",          color:"#dc2626", group:"H", stickers:makeTeam("ESP") },
-  { id:"CPV", label:"Cabo Verde",       color:"#38bdf8", group:"H", stickers:makeTeam("CPV") },
-  { id:"KSA", label:"Arábia Saudita",   color:"#16a34a", group:"H", stickers:makeTeam("KSA") },
-  { id:"URU", label:"Uruguai",          color:"#60a5fa", group:"H", stickers:makeTeam("URU") },
-  { id:"FRA", label:"França",           color:"#60a5fa", group:"I", stickers:makeTeam("FRA") },
-  { id:"SEN", label:"Senegal",          color:"#22c55e", group:"I", stickers:makeTeam("SEN") },
-  { id:"IRQ", label:"Iraque",           color:"#16a34a", group:"I", stickers:makeTeam("IRQ") },
-  { id:"NOR", label:"Noruega",          color:"#dc2626", group:"I", stickers:makeTeam("NOR") },
-  { id:"ARG", label:"Argentina",        color:"#38bdf8", group:"J", stickers:makeTeam("ARG") },
-  { id:"ALG", label:"Argélia",          color:"#16a34a", group:"J", stickers:makeTeam("ALG") },
-  { id:"AUT", label:"Áustria",          color:"#ef4444", group:"J", stickers:makeTeam("AUT") },
-  { id:"JOR", label:"Jordânia",         color:"#16a34a", group:"J", stickers:makeTeam("JOR") },
-  { id:"POR", label:"Portugal",         color:"#dc2626", group:"K", stickers:makeTeam("POR") },
-  { id:"COD", label:"Congo DR",         color:"#facc15", group:"K", stickers:makeTeam("COD") },
-  { id:"UZB", label:"Uzbequistão",      color:"#38bdf8", group:"K", stickers:makeTeam("UZB") },
-  { id:"COL", label:"Colômbia",         color:"#facc15", group:"K", stickers:makeTeam("COL") },
-  { id:"ENG", label:"Inglaterra",       color:"#dc2626", group:"L", stickers:makeTeam("ENG") },
-  { id:"CRO", label:"Croácia",          color:"#ef4444", group:"L", stickers:makeTeam("CRO") },
-  { id:"GHA", label:"Gana",             color:"#d4d4d4", group:"L", stickers:makeTeam("GHA") },
-  { id:"PAN", label:"Panamá",           color:"#f97316", group:"L", stickers:makeTeam("PAN") },
+  // Ordem sequencial das páginas do álbum: 8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38...
+  { id:"MEX", label:"México",           color:"#16a34a", group:"A", stickers:makeTeam("MEX") },  // pág 8
+  { id:"RSA", label:"África do Sul",    color:"#22c55e", group:"A", stickers:makeTeam("RSA") },  // pág 10
+  { id:"KOR", label:"Coreia do Sul",    color:"#ef4444", group:"A", stickers:makeTeam("KOR") },  // pág 12
+  { id:"CZE", label:"Rep. Tcheca",      color:"#60a5fa", group:"A", stickers:makeTeam("CZE") },  // pág 14
+  { id:"CAN", label:"Canadá",           color:"#f97316", group:"B", stickers:makeTeam("CAN") },  // pág 16
+  { id:"BIH", label:"Bósnia e Herz.",   color:"#fbbf24", group:"B", stickers:makeTeam("BIH") },  // pág 18
+  { id:"QAT", label:"Catar",            color:"#8b5cf6", group:"B", stickers:makeTeam("QAT") },  // pág 20
+  { id:"SUI", label:"Suíça",            color:"#f87171", group:"B", stickers:makeTeam("SUI") },  // pág 22
+  { id:"BRA", label:"Brasil",           color:"#fde047", group:"C", stickers:makeTeam("BRA") },  // pág 24
+  { id:"MAR", label:"Marrocos",         color:"#16a34a", group:"C", stickers:makeTeam("MAR") },  // pág 26
+  { id:"HAI", label:"Haiti",            color:"#1d4ed8", group:"C", stickers:makeTeam("HAI") },  // pág 28
+  { id:"SCO", label:"Escócia",          color:"#3b82f6", group:"C", stickers:makeTeam("SCO") },  // pág 30
+  { id:"USA", label:"Estados Unidos",   color:"#dc2626", group:"D", stickers:makeTeam("USA") },  // pág 32
+  { id:"PAR", label:"Paraguai",         color:"#f97316", group:"D", stickers:makeTeam("PAR") },  // pág 34
+  { id:"AUS", label:"Austrália",        color:"#fbbf24", group:"D", stickers:makeTeam("AUS") },  // pág 36
+  { id:"TUR", label:"Turquia",          color:"#ef4444", group:"D", stickers:makeTeam("TUR") },  // pág 38
+  { id:"GER", label:"Alemanha",         color:"#d4d4d4", group:"E", stickers:makeTeam("GER") },  // pág 40
+  { id:"CUW", label:"Curaçao",          color:"#38bdf8", group:"E", stickers:makeTeam("CUW") },  // pág 42
+  { id:"CIV", label:"Costa do Marfim",  color:"#f97316", group:"E", stickers:makeTeam("CIV") },  // pág 44
+  { id:"ECU", label:"Equador",          color:"#facc15", group:"E", stickers:makeTeam("ECU") },  // pág 46
+  { id:"NED", label:"Holanda",          color:"#f97316", group:"F", stickers:makeTeam("NED") },  // pág 48
+  { id:"JPN", label:"Japão",            color:"#3b82f6", group:"F", stickers:makeTeam("JPN") },  // pág 50
+  { id:"SWE", label:"Suécia",           color:"#facc15", group:"F", stickers:makeTeam("SWE") },  // pág 52
+  { id:"TUN", label:"Tunísia",          color:"#dc2626", group:"F", stickers:makeTeam("TUN") },  // pág 54
+  { id:"BEL", label:"Bélgica",          color:"#ef4444", group:"G", stickers:makeTeam("BEL") },  // pág 58
+  { id:"EGY", label:"Egito",            color:"#dc2626", group:"G", stickers:makeTeam("EGY") },  // pág 60
+  { id:"IRN", label:"Irã",              color:"#16a34a", group:"G", stickers:makeTeam("IRN") },  // pág 62
+  { id:"NZL", label:"Nova Zelândia",    color:"#1d4ed8", group:"G", stickers:makeTeam("NZL") },  // pág 64
+  { id:"ESP", label:"Espanha",          color:"#dc2626", group:"H", stickers:makeTeam("ESP") },  // pág 66
+  { id:"CPV", label:"Cabo Verde",       color:"#38bdf8", group:"H", stickers:makeTeam("CPV") },  // pág 68
+  { id:"KSA", label:"Arábia Saudita",   color:"#16a34a", group:"H", stickers:makeTeam("KSA") },  // pág 70
+  { id:"URU", label:"Uruguai",          color:"#60a5fa", group:"H", stickers:makeTeam("URU") },  // pág 72
+  { id:"FRA", label:"França",           color:"#60a5fa", group:"I", stickers:makeTeam("FRA") },  // pág 74
+  { id:"SEN", label:"Senegal",          color:"#22c55e", group:"I", stickers:makeTeam("SEN") },  // pág 76
+  { id:"IRQ", label:"Iraque",           color:"#16a34a", group:"I", stickers:makeTeam("IRQ") },  // pág 78
+  { id:"NOR", label:"Noruega",          color:"#dc2626", group:"I", stickers:makeTeam("NOR") },  // pág 80
+  { id:"ARG", label:"Argentina",        color:"#38bdf8", group:"J", stickers:makeTeam("ARG") },  // pág 82
+  { id:"ALG", label:"Argélia",          color:"#16a34a", group:"J", stickers:makeTeam("ALG") },  // pág 84
+  { id:"AUT", label:"Áustria",          color:"#ef4444", group:"J", stickers:makeTeam("AUT") },  // pág 86
+  { id:"JOR", label:"Jordânia",         color:"#16a34a", group:"J", stickers:makeTeam("JOR") },  // pág 88
+  { id:"POR", label:"Portugal",         color:"#dc2626", group:"K", stickers:makeTeam("POR") },  // pág 90
+  { id:"COD", label:"Congo DR",         color:"#facc15", group:"K", stickers:makeTeam("COD") },  // pág 92
+  { id:"UZB", label:"Uzbequistão",      color:"#38bdf8", group:"K", stickers:makeTeam("UZB") },  // pág 94
+  { id:"COL", label:"Colômbia",         color:"#facc15", group:"K", stickers:makeTeam("COL") },  // pág 96
+  { id:"ENG", label:"Inglaterra",       color:"#dc2626", group:"L", stickers:makeTeam("ENG") },  // pág 98
+  { id:"CRO", label:"Croácia",          color:"#ef4444", group:"L", stickers:makeTeam("CRO") },  // pág 100
+  { id:"GHA", label:"Gana",             color:"#d4d4d4", group:"L", stickers:makeTeam("GHA") },  // pág 102
+  { id:"PAN", label:"Panamá",           color:"#f97316", group:"L", stickers:makeTeam("PAN") },  // pág 104
 ];
 
 const COCA_SECTION  = { id:"CC",    label:"Coca-Cola — Figurinhas Especiais",         color:"#ef4444", group:null, stickers: Array.from({length:14}, (_,i) => `CC${i+1}`) };
