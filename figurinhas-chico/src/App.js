@@ -239,6 +239,11 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
 
 // ─── GERADOR DE PDF ───────────────────────────────────────────────────────────
 async function gerarPDF(stickers, userName) {
+  if (!window.jspdf) {
+    alert("Biblioteca de PDF não carregou. Verifique sua conexão e tente novamente.");
+    return;
+  }
+  try {
   const { jsPDF } = window.jspdf;
   const doc  = new jsPDF({ orientation:"portrait", unit:"mm", format:"a4" });
   const hoje = new Date().toLocaleDateString("pt-BR");
@@ -357,6 +362,7 @@ async function gerarPDF(stickers, userName) {
   }
 
   doc.save("figurinhas-chico-"+hoje.split("/").join("-")+".pdf");
+  } catch(e) { alert("Erro ao gerar PDF: "+e.message); }
 }
 
 // ─── SALA DE TROCAS ───────────────────────────────────────────────────────────
