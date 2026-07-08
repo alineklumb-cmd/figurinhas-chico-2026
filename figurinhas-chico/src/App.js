@@ -240,85 +240,123 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
 // ─── GERADOR DE PDF ───────────────────────────────────────────────────────────
 async function gerarPDF(stickers, userName) {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+  const doc  = new jsPDF({ orientation:"portrait", unit:"mm", format:"a4" });
+  const hoje = new Date().toLocaleDateString("pt-BR");
 
-  const allCodes  = ALBUM_OFICIAL.flatMap(s => s.stickers);
-  const faltam    = allCodes.filter(c => !stickers[c] || stickers[c] === 0);
-  const repetidas = allCodes.filter(c => stickers[c] >= 2);
-  const hoje      = new Date().toLocaleDateString("pt-BR");
-  const total     = allCodes.length;
-  const have      = allCodes.filter(c => (stickers[c]||0) > 0).length;
-  const pct       = Math.round(have / total * 100);
+  const secoes = ALBUM_OFICIAL;
+  const total  = secoes.flatMap(s=>s.stickers).length;
+  const have   = secoes.flatMap(s=>s.stickers).filter(c=>(stickers[c]||0)>0).length;
+  const pct    = Math.round(have/total*100);
+  const totFalt= secoes.flatMap(s=>s.stickers).filter(c=>!stickers[c]||stickers[c]===0).length;
+  const totRep = secoes.flatMap(s=>s.stickers).filter(c=>(stickers[c]||0)>=2).length;
 
-  const PURPLE = [99, 102, 241];
-  const GREEN  = [22, 163,  74];
-  const RED    = [180,  30,  30];
-  const ORANGE = [180, 100,   0];
-  const GRAY   = [100, 116, 139];
-  const LGRAY  = [226, 232, 240];
-  const WHITE  = [255, 255, 255];
+  const PURPLE=[99,102,241],GREEN=[22,163,74],RED=[180,30,30],
+        ORANGE=[180,100,0],GRAY=[100,116,139],LGRAY=[226,232,240],WHITE=[255,255,255];
 
-  doc.setFillColor(255,255,255);
-  doc.rect(0,0,210,297,"F");
+  // ── HEADER DA PRIMEIRA PÁGINA ──
+  doc.setFillColor(255,255,255); doc.rect(0,0,210,297,"F");
+  doc.setFillColor(...PURPLE); doc.rect(0,0,210,22,"F");
+  doc.setTextColor(...WHITE); doc.setFontSize(13); doc.setFont("helvetica","bold");
+  doc.text("Figurinhas do Chico 2026", 105, 10, {align:"center"});
+  doc.setFontSize(7); doc.setFont("helvetica","normal");
+  doc.text("Copa do Mundo FIFA  •  "+hoje+"  •  "+userName, 105, 17, {align:"center"});
 
-  // Header
-  doc.setFillColor(...PURPLE);
-  doc.rect(0, 0, 210, 26, "F");
-  doc.setTextColor(...WHITE);
-  doc.setFontSize(15); doc.setFont("helvetica","bold");
-  doc.text("Figurinhas do Chico 2026", 105, 11, { align:"center" });
-  doc.setFontSize(8); doc.setFont("helvetica","normal");
-  doc.text(`Copa do Mundo FIFA  •  Gerado em ${hoje}  •  ${userName}`, 105, 20, { align:"center" });
-
-  // Stats
-  const statsY = 30;
-  [{label:"Completado",val:`${pct}%`,color:PURPLE},{label:"Tenho",val:have,color:GREEN},{label:"Faltam",val:faltam.length,color:RED},{label:"Repetidas",val:repetidas.length,color:ORANGE}]
+  // ── STATS ──
+  [{label:"Completado",val:pct+"%",color:PURPLE},{label:"Tenho",val:have,color:GREEN},
+   {label:"Faltam",val:totFalt,color:RED},{label:"Repetidas",val:totRep,color:ORANGE}]
   .forEach((s,i) => {
-    const x = 10 + i*48;
-    doc.setFillColor(...LGRAY); doc.roundedRect(x,statsY,44,14,2,2,"F");
+    const x=10+i*48;
+    doc.setFillColor(...LGRAY); doc.roundedRect(x,26,44,14,2,2,"F");
     doc.setTextColor(...s.color); doc.setFontSize(13); doc.setFont("helvetica","bold");
-    doc.text(String(s.val), x+22, statsY+7.5, {align:"center"});
+    doc.text(String(s.val), x+22, 33, {align:"center"});
     doc.setTextColor(...GRAY); doc.setFontSize(6); doc.setFont("helvetica","normal");
-    doc.text(s.label.toUpperCase(), x+22, statsY+12, {align:"center"});
+    doc.text(s.label.toUpperCase(), x+22, 38, {align:"center"});
   });
 
-  doc.setDrawColor(...LGRAY); doc.setLineWidth(0.3); doc.line(10,47,200,47);
+  doc.setDrawColor(...LGRAY); doc.setLineWidth(0.3); doc.line(10,43,200,43);
 
-  const newPage = () => { doc.addPage(); doc.setFillColor(255,255,255); doc.rect(0,0,210,297,"F"); return 15; };
-
-  const drawBlock = (title, items, countFn, startY, titleColor, chipBorder, chipText) => {
-    doc.setTextColor(...titleColor); doc.setFontSize(10); doc.setFont("helvetica","bold");
-    doc.text(`${title}  (${items.length})`, 10, startY+5);
-    doc.setDrawColor(...titleColor); doc.setLineWidth(0.4); doc.line(10,startY+7,200,startY+7);
-    if (items.length===0) { doc.setTextColor(...GRAY); doc.setFontSize(8); doc.setFont("helvetica","normal"); doc.text("Nenhuma figurinha nesta categoria.",10,startY+15); return startY+20; }
-    const chipW=18, chipH=7, cols=10, gap=1;
-    let cx=10, cy=startY+11, col=0;
-    items.forEach(code => {
-      if (cy+chipH>285) { cy=newPage(); cx=10; col=0; }
-      const count=countFn(code);
-      doc.setFillColor(248,250,252); doc.setDrawColor(...chipBorder); doc.setLineWidth(0.3);
-      doc.roundedRect(cx,cy,chipW,chipH,1.5,1.5,"FD");
-      doc.setTextColor(...chipText); doc.setFontSize(5.5); doc.setFont("helvetica","bold");
-      doc.text(count>1?`${code} x${count}`:code, cx+chipW/2, cy+4.5, {align:"center"});
-      col++; if(col>=cols){col=0;cx=10;cy+=chipH+gap;}else{cx+=chipW+gap;}
-    });
-    return startY+11+Math.ceil(items.length/cols)*(chipH+gap)+6;
+  // ── HELPER: nova página ──
+  const newPage = () => {
+    doc.addPage();
+    doc.setFillColor(255,255,255); doc.rect(0,0,210,297,"F");
+    return 15;
   };
 
-  let y = 50;
-  y = drawBlock("FALTAM", faltam, ()=>0, y, RED, [220,38,38], [150,20,20]);
-  y += 6; if(y>260) y=newPage();
-  y = drawBlock("REPETIDAS", repetidas, c=>stickers[c], y, ORANGE, [180,100,0], [130,70,0]);
+  // ── HELPER: desenhar chips inline ──
+  // Retorna novo Y após os chips
+  const drawChips = (items, countFn, startY, borderClr, textClr) => {
+    const chipW=17, chipH=6.5, chipCols=10, chipGap=1;
+    let cx=10, cy=startY, c=0;
+    items.forEach(code => {
+      if (cy+chipH > 285) { cy=newPage(); cx=10; c=0; }
+      const count = countFn(code);
+      doc.setFillColor(248,250,252);
+      doc.setDrawColor(...borderClr); doc.setLineWidth(0.3);
+      doc.roundedRect(cx,cy,chipW,chipH,1.5,1.5,"FD");
+      doc.setTextColor(...textClr); doc.setFontSize(5.5); doc.setFont("helvetica","bold");
+      doc.text(count>1?(code+" x"+count):code, cx+chipW/2, cy+4.2, {align:"center"});
+      c++;
+      if (c>=chipCols) { c=0; cx=10; cy+=chipH+chipGap; }
+      else { cx+=chipW+chipGap; }
+    });
+    // Avançar para próxima linha se ficou no meio
+    if (items.length % chipCols !== 0) cy += chipH+chipGap;
+    return cy;
+  };
 
+  // ── BLOCOS POR SELEÇÃO (contínuo) ──
+  let y = 47;
+
+  secoes.forEach(s => {
+    const falt = s.stickers.filter(c => !stickers[c] || stickers[c]===0);
+    const rep  = s.stickers.filter(c => (stickers[c]||0)>=2);
+    if (falt.length===0 && rep.length===0) return; // seleção completa, pula
+
+    // Verificar espaço — se não couber o cabeçalho + pelo menos 1 linha, nova página
+    if (y > 272) y = newPage();
+
+    // Cabeçalho da seleção
+    const h = s.stickers.filter(c=>(stickers[c]||0)>0).length;
+    doc.setFillColor(...LGRAY); doc.rect(10,y,190,7,"F");
+    doc.setTextColor(...PURPLE); doc.setFontSize(8); doc.setFont("helvetica","bold");
+    doc.text(s.id+" — "+s.label+"  (G"+s.group+")", 13, y+5);
+    doc.setTextColor(falt.length===0?[22,163,74]:RED); doc.setFontSize(7);
+    const resumo = h+"/20"+(falt.length>0?"  −"+falt.length+" faltam":"")+(rep.length>0?"  +"+rep.length+" rep":"");
+    doc.text(resumo, 197, y+5, {align:"right"});
+    y += 9;
+
+    // Faltam
+    if (falt.length > 0) {
+      if (y > 278) y = newPage();
+      doc.setTextColor(...RED); doc.setFontSize(6.5); doc.setFont("helvetica","bold");
+      doc.text("FALTAM:", 10, y+1);
+      y += 3;
+      y = drawChips(falt, ()=>0, y, [220,38,38], [150,20,20]);
+    }
+
+    // Repetidas
+    if (rep.length > 0) {
+      if (y > 278) y = newPage();
+      doc.setTextColor(...ORANGE); doc.setFontSize(6.5); doc.setFont("helvetica","bold");
+      doc.text("REPETIDAS:", 10, y+1);
+      y += 3;
+      y = drawChips(rep, c=>stickers[c], y, [180,100,0], [130,70,0]);
+    }
+
+    y += 4; // espaço entre seleções
+  });
+
+  // ── RODAPÉ EM TODAS AS PÁGINAS ──
   const pages = doc.getNumberOfPages();
-  for (let i=1;i<=pages;i++) {
+  for (let i=1; i<=pages; i++) {
     doc.setPage(i);
     doc.setDrawColor(...LGRAY); doc.setLineWidth(0.3); doc.line(10,290,200,290);
     doc.setTextColor(...GRAY); doc.setFontSize(6); doc.setFont("helvetica","normal");
     doc.text("Figurinhas do Chico 2026  •  figurinhas-chico-2026.vercel.app",105,294,{align:"center"});
-    doc.text(`Página ${i} de ${pages}`,200,294,{align:"right"});
+    doc.text("Pagina "+i+" de "+pages, 200,294,{align:"right"});
   }
-  doc.save(`figurinhas-chico-${hoje.split("/").join("-")}.pdf`);
+
+  doc.save("figurinhas-chico-"+hoje.split("/").join("-")+".pdf");
 }
 
 // ─── SALA DE TROCAS ───────────────────────────────────────────────────────────
