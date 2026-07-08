@@ -719,7 +719,7 @@ export default function App() {
             <div style={{display:"flex",gap:5}}>
               {saving&&<span style={{fontSize:9,color:"#64748b",alignSelf:"center"}}>💾</span>}
               <button onClick={()=>setShowBackup(true)} style={{background:"#1e293b",border:"1px solid #334155",borderRadius:8,padding:"4px 8px",cursor:"pointer",color:"#64748b",fontSize:11,fontWeight:700}}>💾</button>
-              <button onClick={()=>gerarPDF(stickers, user.displayName||user.email)} style={{background:"#1e293b",border:"1px solid #334155",borderRadius:8,padding:"4px 8px",cursor:"pointer",color:"#64748b",fontSize:11,fontWeight:700}}>📄</button>
+              <button onClick={()=>gerarPDF(stickers, user.displayName||user.email)} style={{background:"#1d4ed8",border:"none",borderRadius:8,padding:"4px 10px",cursor:"pointer",color:"#fff",fontSize:11,fontWeight:700}}>📄 PDF</button>
               <button onClick={toggleLock} style={{background:locked?"#1e293b":"#14532d",border:locked?"1px solid #334155":"1px solid #22c55e",borderRadius:8,padding:"4px 10px",cursor:"pointer",color:locked?"#64748b":"#86efac",fontSize:11,fontWeight:700}}>{locked?"🔒":"✏️"}</button>
               <button onClick={()=>signOut(auth)} style={{fontSize:9,color:"#475569",background:"#1e293b",border:"none",borderRadius:4,padding:"2px 6px",cursor:"pointer"}}>Sair</button>
             </div>
