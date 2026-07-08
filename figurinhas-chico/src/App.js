@@ -237,6 +237,90 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
   );
 }
 
+// ─── GERADOR DE PDF ───────────────────────────────────────────────────────────
+async function gerarPDF(stickers, userName) {
+  const { jsPDF } = await import("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+  const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+  const allCodes  = ALBUM_OFICIAL.flatMap(s => s.stickers);
+  const faltam    = allCodes.filter(c => !stickers[c] || stickers[c] === 0);
+  const repetidas = allCodes.filter(c => stickers[c] >= 2);
+  const hoje      = new Date().toLocaleDateString("pt-BR");
+  const total     = allCodes.length;
+  const have      = allCodes.filter(c => (stickers[c]||0) > 0).length;
+  const pct       = Math.round(have / total * 100);
+
+  const PURPLE = [99, 102, 241];
+  const GREEN  = [22, 163,  74];
+  const RED    = [180,  30,  30];
+  const ORANGE = [180, 100,   0];
+  const GRAY   = [100, 116, 139];
+  const LGRAY  = [226, 232, 240];
+  const WHITE  = [255, 255, 255];
+
+  doc.setFillColor(255,255,255);
+  doc.rect(0,0,210,297,"F");
+
+  // Header
+  doc.setFillColor(...PURPLE);
+  doc.rect(0, 0, 210, 26, "F");
+  doc.setTextColor(...WHITE);
+  doc.setFontSize(15); doc.setFont("helvetica","bold");
+  doc.text("Figurinhas do Chico 2026", 105, 11, { align:"center" });
+  doc.setFontSize(8); doc.setFont("helvetica","normal");
+  doc.text(`Copa do Mundo FIFA  •  Gerado em ${hoje}  •  ${userName}`, 105, 20, { align:"center" });
+
+  // Stats
+  const statsY = 30;
+  [{label:"Completado",val:`${pct}%`,color:PURPLE},{label:"Tenho",val:have,color:GREEN},{label:"Faltam",val:faltam.length,color:RED},{label:"Repetidas",val:repetidas.length,color:ORANGE}]
+  .forEach((s,i) => {
+    const x = 10 + i*48;
+    doc.setFillColor(...LGRAY); doc.roundedRect(x,statsY,44,14,2,2,"F");
+    doc.setTextColor(...s.color); doc.setFontSize(13); doc.setFont("helvetica","bold");
+    doc.text(String(s.val), x+22, statsY+7.5, {align:"center"});
+    doc.setTextColor(...GRAY); doc.setFontSize(6); doc.setFont("helvetica","normal");
+    doc.text(s.label.toUpperCase(), x+22, statsY+12, {align:"center"});
+  });
+
+  doc.setDrawColor(...LGRAY); doc.setLineWidth(0.3); doc.line(10,47,200,47);
+
+  const newPage = () => { doc.addPage(); doc.setFillColor(255,255,255); doc.rect(0,0,210,297,"F"); return 15; };
+
+  const drawBlock = (title, items, countFn, startY, titleColor, chipBorder, chipText) => {
+    doc.setTextColor(...titleColor); doc.setFontSize(10); doc.setFont("helvetica","bold");
+    doc.text(`${title}  (${items.length})`, 10, startY+5);
+    doc.setDrawColor(...titleColor); doc.setLineWidth(0.4); doc.line(10,startY+7,200,startY+7);
+    if (items.length===0) { doc.setTextColor(...GRAY); doc.setFontSize(8); doc.setFont("helvetica","normal"); doc.text("Nenhuma figurinha nesta categoria.",10,startY+15); return startY+20; }
+    const chipW=18, chipH=7, cols=10, gap=1;
+    let cx=10, cy=startY+11, col=0;
+    items.forEach(code => {
+      if (cy+chipH>285) { cy=newPage(); cx=10; col=0; }
+      const count=countFn(code);
+      doc.setFillColor(248,250,252); doc.setDrawColor(...chipBorder); doc.setLineWidth(0.3);
+      doc.roundedRect(cx,cy,chipW,chipH,1.5,1.5,"FD");
+      doc.setTextColor(...chipText); doc.setFontSize(5.5); doc.setFont("helvetica","bold");
+      doc.text(count>1?`${code} x${count}`:code, cx+chipW/2, cy+4.5, {align:"center"});
+      col++; if(col>=cols){col=0;cx=10;cy+=chipH+gap;}else{cx+=chipW+gap;}
+    });
+    return startY+11+Math.ceil(items.length/cols)*(chipH+gap)+6;
+  };
+
+  let y = 50;
+  y = drawBlock("FALTAM", faltam, ()=>0, y, RED, [220,38,38], [150,20,20]);
+  y += 6; if(y>260) y=newPage();
+  y = drawBlock("REPETIDAS", repetidas, c=>stickers[c], y, ORANGE, [180,100,0], [130,70,0]);
+
+  const pages = doc.getNumberOfPages();
+  for (let i=1;i<=pages;i++) {
+    doc.setPage(i);
+    doc.setDrawColor(...LGRAY); doc.setLineWidth(0.3); doc.line(10,290,200,290);
+    doc.setTextColor(...GRAY); doc.setFontSize(6); doc.setFont("helvetica","normal");
+    doc.text("Figurinhas do Chico 2026  •  figurinhas-chico-2026.vercel.app",105,294,{align:"center"});
+    doc.text(`Página ${i} de ${pages}`,200,294,{align:"right"});
+  }
+  doc.save(`figurinhas-chico-${hoje.replace(/\//g,"-")}.pdf`);
+}
+
 // ─── SALA DE TROCAS ───────────────────────────────────────────────────────────
 function TrocasTab({ user, myStickers }) {
   const [step,         setStep]         = useState("menu");
@@ -512,149 +596,6 @@ function TrocasTab({ user, myStickers }) {
 }
 
 // ─── GERADOR DE PDF ───────────────────────────────────────────────────────────
-async function gerarPDF(stickers, userName) {
-  const { jsPDF } = await import("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
-  const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-
-  const allCodes  = ALBUM_OFICIAL.flatMap(s => s.stickers);
-  const faltam    = allCodes.filter(c => !stickers[c] || stickers[c] === 0);
-  const repetidas = allCodes.filter(c => stickers[c] >= 2);
-  const hoje      = new Date().toLocaleDateString("pt-BR");
-  const total     = allCodes.length;
-  const have      = allCodes.filter(c => (stickers[c]||0) > 0).length;
-  const pct       = Math.round(have / total * 100);
-
-  // Paleta fundo branco
-  const BLACK  = [15,  23,  42];
-  const PURPLE = [99, 102, 241];
-  const GREEN  = [22, 163,  74];
-  const RED    = [180,  30,  30];
-  const ORANGE = [180, 100,   0];
-  const GRAY   = [100, 116, 139];
-  const LGRAY  = [226, 232, 240];
-  const WHITE  = [255, 255, 255];
-
-  // Fundo branco (padrão do jsPDF)
-  doc.setFillColor(255,255,255);
-  doc.rect(0,0,210,297,"F");
-
-  // ── HEADER ──
-  doc.setFillColor(...PURPLE);
-  doc.rect(0, 0, 210, 26, "F");
-  doc.setTextColor(...WHITE);
-  doc.setFontSize(15);
-  doc.setFont("helvetica", "bold");
-  doc.text("Figurinhas do Chico 2026", 105, 11, { align: "center" });
-  doc.setFontSize(8);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Copa do Mundo FIFA  •  Gerado em ${hoje}  •  ${userName}`, 105, 20, { align: "center" });
-
-  // ── STATS ──
-  const statsY = 30;
-  [
-    { label: "Completado", val: `${pct}%`,          color: PURPLE },
-    { label: "Tenho",      val: have,                color: GREEN  },
-    { label: "Faltam",     val: faltam.length,       color: RED    },
-    { label: "Repetidas",  val: repetidas.length,    color: ORANGE },
-  ].forEach((s, i) => {
-    const x = 10 + i * 48;
-    doc.setFillColor(...LGRAY);
-    doc.roundedRect(x, statsY, 44, 14, 2, 2, "F");
-    doc.setTextColor(...s.color);
-    doc.setFontSize(13);
-    doc.setFont("helvetica", "bold");
-    doc.text(String(s.val), x + 22, statsY + 7.5, { align: "center" });
-    doc.setTextColor(...GRAY);
-    doc.setFontSize(6);
-    doc.setFont("helvetica", "normal");
-    doc.text(s.label.toUpperCase(), x + 22, statsY + 12, { align: "center" });
-  });
-
-  // ── LINHA DIVISÓRIA ──
-  doc.setDrawColor(...LGRAY);
-  doc.setLineWidth(0.3);
-  doc.line(10, 47, 200, 47);
-
-  // ── FUNÇÃO: desenhar bloco ──
-  const newPage = () => {
-    doc.addPage();
-    doc.setFillColor(255,255,255);
-    doc.rect(0,0,210,297,"F");
-    return 15;
-  };
-
-  const drawBlock = (title, items, countFn, startY, titleColor, chipBorder, chipText) => {
-    // Título
-    doc.setTextColor(...titleColor);
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.text(title + `  (${items.length})`, 10, startY + 5);
-    doc.setDrawColor(...titleColor);
-    doc.setLineWidth(0.4);
-    doc.line(10, startY + 7, 200, startY + 7);
-
-    if (items.length === 0) {
-      doc.setTextColor(...GRAY);
-      doc.setFontSize(8);
-      doc.setFont("helvetica", "normal");
-      doc.text("Nenhuma figurinha nesta categoria.", 10, startY + 15);
-      return startY + 20;
-    }
-
-    const chipW = 18, chipH = 7, cols = 10, gap = 1;
-    let cx = 10, cy = startY + 11, col = 0;
-
-    items.forEach(code => {
-      // Nova página se necessário
-      if (cy + chipH > 285) {
-        cy = newPage();
-        cx = 10; col = 0;
-      }
-      const count = countFn(code);
-      // Borda do chip
-      doc.setFillColor(248, 250, 252);
-      doc.setDrawColor(...chipBorder);
-      doc.setLineWidth(0.3);
-      doc.roundedRect(cx, cy, chipW, chipH, 1.5, 1.5, "FD");
-      // Texto
-      doc.setTextColor(...chipText);
-      doc.setFontSize(5.5);
-      doc.setFont("helvetica", "bold");
-      const label = count > 1 ? `${code} x${count}` : code;
-      doc.text(label, cx + chipW/2, cy + 4.5, { align: "center" });
-
-      col++;
-      if (col >= cols) { col = 0; cx = 10; cy += chipH + gap; }
-      else { cx += chipW + gap; }
-    });
-
-    const rows = Math.ceil(items.length / cols);
-    return startY + 11 + rows * (chipH + gap) + 6;
-  };
-
-  let y = 50;
-  y = drawBlock("FALTAM", faltam, () => 0, y, RED, [220,38,38], [150,20,20]);
-  y += 6;
-  if (y > 260) y = newPage();
-  y = drawBlock("REPETIDAS", repetidas, c => stickers[c], y, ORANGE, [180,100,0], [130,70,0]);
-
-  // ── RODAPÉ ──
-  const pages = doc.getNumberOfPages();
-  for (let i = 1; i <= pages; i++) {
-    doc.setPage(i);
-    doc.setDrawColor(...LGRAY);
-    doc.setLineWidth(0.3);
-    doc.line(10, 290, 200, 290);
-    doc.setTextColor(...GRAY);
-    doc.setFontSize(6);
-    doc.setFont("helvetica","normal");
-    doc.text("Figurinhas do Chico 2026  •  figurinhas-chico-2026.vercel.app", 105, 294, { align: "center" });
-    doc.text(`Página ${i} de ${pages}`, 200, 294, { align: "right" });
-  }
-
-  doc.save(`figurinhas-chico-${hoje.replace(/\//g,"-")}.pdf`);
-}
-
 // ─── APP ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [user,       setUser]       = useState(null);
