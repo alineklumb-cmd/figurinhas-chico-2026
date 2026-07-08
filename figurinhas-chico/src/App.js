@@ -239,7 +239,7 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
 
 // ─── GERADOR DE PDF ───────────────────────────────────────────────────────────
 async function gerarPDF(stickers, userName) {
-  const { jsPDF } = await import("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+  const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
   const allCodes  = ALBUM_OFICIAL.flatMap(s => s.stickers);
