@@ -245,7 +245,7 @@ async function gerarPDF(stickers, userName) {
   }
   try {
   const { jsPDF } = window.jspdf;
-  const doc  = new jsPDF({ orientation:"portrait", unit:"mm", format:"a4" });
+  const doc  = new jsPDF("p", "mm", "a4");
   const hoje = new Date().toLocaleDateString("pt-BR");
 
   const secoes = ALBUM_OFICIAL;
