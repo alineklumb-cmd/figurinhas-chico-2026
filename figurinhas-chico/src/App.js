@@ -366,26 +366,26 @@ async function gerarPDF(stickers, userName) {
 
     rep.forEach(code => {
       const qtdReal = stickers[code] - 1; // quantidade real para trocar
-      if (cy+CH > 286) newPageRep();
+      // Repetir o quadrinho qtdReal vezes
+      for (let r=0; r<qtdReal; r++) {
+        if (cy+CH > 286) newPageRep();
 
-      // Chip com quantidade real
-      doc.setFillColor(255,248,235);
-      doc.setDrawColor(180,100,0); doc.setLineWidth(0.3);
-      doc.roundedRect(cx, cy, CW, CH, 1.5, 1.5, "FD");
+        doc.setFillColor(255,248,235);
+        doc.setDrawColor(180,100,0); doc.setLineWidth(0.3);
+        doc.roundedRect(cx, cy, CW, CH, 1.5, 1.5, "FD");
 
-      // Código
-      doc.setTextColor(...BLACK); doc.setFontSize(6.5); doc.setFont("helvetica","bold");
-      doc.text(code, cx+CW/2, cy+CH-2, {align:"center"});
+        // Caixinha de check no canto superior esquerdo
+        doc.setDrawColor(180,140,80); doc.setLineWidth(0.3);
+        doc.rect(cx+1.5, cy+1.5, 4, 4);
 
-      // Quantidade real no topo direito
-      doc.setFillColor(180,100,0);
-      doc.roundedRect(cx+CW-5.5, cy+0.8, 5, 4, 1, 1, "F");
-      doc.setTextColor(...WHITE); doc.setFontSize(5.5); doc.setFont("helvetica","bold");
-      doc.text("x"+qtdReal, cx+CW-3, cy+3.5, {align:"center"});
+        // Código
+        doc.setTextColor(...BLACK); doc.setFontSize(6.5); doc.setFont("helvetica","bold");
+        doc.text(code, cx+CW/2, cy+CH-2, {align:"center"});
 
-      col++;
-      if (col>=COLS) { col=0; cx=10; cy+=CH+GAP; }
-      else { cx+=CW+GAP; }
+        col++;
+        if (col>=COLS) { col=0; cx=10; cy+=CH+GAP; }
+        else { cx+=CW+GAP; }
+      }
     });
 
     if (col>0) { col=0; cx=10; cy+=CH+GAP; }
