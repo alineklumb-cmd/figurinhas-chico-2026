@@ -239,119 +239,160 @@ function Section({ section, stickers, onUpdate, search, filter, locked }) {
 
 // ─── GERADOR DE PDF ───────────────────────────────────────────────────────────
 async function gerarPDF(stickers, userName) {
-  if (!window.jspdf) {
-    alert("Biblioteca de PDF não carregou. Verifique sua conexão e tente novamente.");
-    return;
-  }
+  if (!window.jspdf) { alert("Biblioteca de PDF não carregou. Verifique sua conexão e tente novamente."); return; }
   try {
   const { jsPDF } = window.jspdf;
   const doc  = new jsPDF("p", "mm", "a4");
   const hoje = new Date().toLocaleDateString("pt-BR");
 
+  // Apenas seleções com grupo + FWC, sem CC e EXTRA
   const secoes = ALBUM_OFICIAL;
-  const total  = secoes.flatMap(s=>s.stickers).length;
-  const have   = secoes.flatMap(s=>s.stickers).filter(c=>(stickers[c]||0)>0).length;
-  const pct    = Math.round(have/total*100);
-  const totFalt= secoes.flatMap(s=>s.stickers).filter(c=>!stickers[c]||stickers[c]===0).length;
-  const totRep = secoes.flatMap(s=>s.stickers).filter(c=>(stickers[c]||0)>=2).length;
 
-  const PURPLE=[99,102,241],GREEN=[22,163,74],RED=[180,30,30],
-        ORANGE=[180,100,0],GRAY=[100,116,139],LGRAY=[226,232,240],WHITE=[255,255,255];
+  const PURPLE=[99,102,241], GRAY=[100,116,139], LGRAY=[226,232,240],
+        WHITE=[255,255,255],  RED=[180,30,30],    ORANGE=[180,100,0],
+        GREEN=[22,163,74],    BLACK=[30,30,30];
 
-  // ── HEADER DA PRIMEIRA PÁGINA ──
-  doc.setFillColor(255,255,255); doc.rect(0,0,210,297,"F");
-  doc.setFillColor(...PURPLE); doc.rect(0,0,210,22,"F");
-  doc.setTextColor(...WHITE); doc.setFontSize(13); doc.setFont("helvetica","bold");
-  doc.text("Figurinhas do Chico 2026", 105, 10, {align:"center"});
-  doc.setFontSize(7); doc.setFont("helvetica","normal");
-  doc.text("Copa do Mundo FIFA  •  "+hoje+"  •  "+userName, 105, 17, {align:"center"});
-
-  // ── STATS ──
-  [{label:"Completado",val:pct+"%",color:PURPLE},{label:"Tenho",val:have,color:GREEN},
-   {label:"Faltam",val:totFalt,color:RED},{label:"Repetidas",val:totRep,color:ORANGE}]
-  .forEach((s,i) => {
-    const x=10+i*48;
-    doc.setFillColor(...LGRAY); doc.roundedRect(x,26,44,14,2,2,"F");
-    doc.setTextColor(...s.color); doc.setFontSize(13); doc.setFont("helvetica","bold");
-    doc.text(String(s.val), x+22, 33, {align:"center"});
-    doc.setTextColor(...GRAY); doc.setFontSize(6); doc.setFont("helvetica","normal");
-    doc.text(s.label.toUpperCase(), x+22, 38, {align:"center"});
-  });
-
-  doc.setDrawColor(...LGRAY); doc.setLineWidth(0.3); doc.line(10,43,200,43);
-
-  // ── HELPER: nova página ──
-  const newPage = () => {
-    doc.addPage();
+  const pageHeader = (titulo, subtitulo) => {
     doc.setFillColor(255,255,255); doc.rect(0,0,210,297,"F");
-    return 15;
+    doc.setFillColor(...PURPLE); doc.rect(0,0,210,20,"F");
+    doc.setTextColor(...WHITE); doc.setFontSize(12); doc.setFont("helvetica","bold");
+    doc.text("Figurinhas do Chico 2026 — "+titulo, 105, 9, {align:"center"});
+    doc.setFontSize(7); doc.setFont("helvetica","normal");
+    doc.text(subtitulo+"  •  "+hoje+"  •  "+userName, 105, 16, {align:"center"});
   };
 
-  // ── HELPER: desenhar chips inline ──
-  // Retorna novo Y após os chips
-  const drawChips = (items, countFn, startY, borderClr, textClr) => {
-    const chipW=17, chipH=6.5, chipCols=10, chipGap=1;
-    let cx=10, cy=startY, c=0;
-    items.forEach(code => {
-      if (cy+chipH > 285) { cy=newPage(); cx=10; c=0; }
-      const count = countFn(code);
-      doc.setFillColor(248,250,252);
-      doc.setDrawColor(...borderClr); doc.setLineWidth(0.3);
-      doc.roundedRect(cx,cy,chipW,chipH,1.5,1.5,"FD");
-      doc.setTextColor(...textClr); doc.setFontSize(5.5); doc.setFont("helvetica","bold");
-      doc.text(count>1?(code+" x"+count):code, cx+chipW/2, cy+4.2, {align:"center"});
-      c++;
-      if (c>=chipCols) { c=0; cx=10; cy+=chipH+chipGap; }
-      else { cx+=chipW+chipGap; }
-    });
-    // Avançar para próxima linha se ficou no meio
-    if (items.length % chipCols !== 0) cy += chipH+chipGap;
-    return cy;
-  };
+  // ════════════════════════════════════════════
+  // PÁGINA(S) 1+: FALTAM
+  // ════════════════════════════════════════════
+  const totFalt = secoes.flatMap(s=>s.stickers).filter(c=>!stickers[c]||stickers[c]===0).length;
+  pageHeader("Figurinhas que FALTAM", "Total: "+totFalt+" figurinhas");
 
-  // ── BLOCOS POR SELEÇÃO (contínuo) ──
-  let y = 47;
+  // Chips estilo "quadrinho para marcar"
+  // 8 colunas, cada chip tem quadradinho + código
+  const CW=23, CH=9, COLS=8, GAP=1.5;
+  let cx=10, cy=24, col=0;
+
+  const newPageFalt = () => {
+    doc.addPage();
+    pageHeader("Figurinhas que FALTAM (cont.)", "Total: "+totFalt+" figurinhas");
+    cy=24; cx=10; col=0;
+  };
 
   secoes.forEach(s => {
     const falt = s.stickers.filter(c => !stickers[c] || stickers[c]===0);
-    const rep  = s.stickers.filter(c => (stickers[c]||0)>=2);
-    if (falt.length===0 && rep.length===0) return; // seleção completa, pula
+    if (falt.length===0) return;
 
-    // Verificar espaço — se não couber o cabeçalho + pelo menos 1 linha, nova página
-    if (y > 272) y = newPage();
+    // Verificar espaço para cabeçalho + pelo menos 1 linha
+    if (cy > 278) newPageFalt();
 
-    // Cabeçalho da seleção
-    const h = s.stickers.filter(c=>(stickers[c]||0)>0).length;
-    doc.setFillColor(...LGRAY); doc.rect(10,y,190,7,"F");
-    doc.setTextColor(...PURPLE); doc.setFontSize(8); doc.setFont("helvetica","bold");
-    doc.text(s.id+" — "+s.label+"  (G"+s.group+")", 13, y+5);
-    doc.setTextColor(falt.length===0?[22,163,74]:RED); doc.setFontSize(7);
-    const resumo = h+"/20"+(falt.length>0?"  −"+falt.length+" faltam":"")+(rep.length>0?"  +"+rep.length+" rep":"");
-    doc.text(resumo, 197, y+5, {align:"right"});
-    y += 9;
+    // Se não couber nem o cabeçalho na coluna atual, pular para próxima linha
+    if (col > 0) { col=0; cx=10; cy+=CH+GAP; }
+    if (cy > 275) newPageFalt();
 
-    // Faltam
-    if (falt.length > 0) {
-      if (y > 278) y = newPage();
-      doc.setTextColor(...RED); doc.setFontSize(6.5); doc.setFont("helvetica","bold");
-      doc.text("FALTAM:", 10, y+1);
-      y += 3;
-      y = drawChips(falt, ()=>0, y, [220,38,38], [150,20,20]);
-    }
+    // Cabeçalho da seleção — faixa cinza largura total
+    doc.setFillColor(...LGRAY);
+    doc.rect(10, cy, 190, 6, "F");
+    doc.setTextColor(...PURPLE); doc.setFontSize(7); doc.setFont("helvetica","bold");
+    doc.text(s.id+" — "+s.label+(s.group?" (G"+s.group+")":""), 13, cy+4.3);
+    doc.setTextColor(...GRAY); doc.setFontSize(6.5);
+    doc.text(falt.length+" faltam", 197, cy+4.3, {align:"right"});
+    cy+=8; cx=10; col=0;
 
-    // Repetidas
-    if (rep.length > 0) {
-      if (y > 278) y = newPage();
-      doc.setTextColor(...ORANGE); doc.setFontSize(6.5); doc.setFont("helvetica","bold");
-      doc.text("REPETIDAS:", 10, y+1);
-      y += 3;
-      y = drawChips(rep, c=>stickers[c], y, [180,100,0], [130,70,0]);
-    }
+    falt.forEach(code => {
+      if (cy+CH > 286) newPageFalt();
 
-    y += 4; // espaço entre seleções
+      // Quadrinho para marcar (checkbox visual)
+      doc.setFillColor(255,255,255);
+      doc.setDrawColor(...GRAY); doc.setLineWidth(0.25);
+      doc.roundedRect(cx, cy, CW, CH, 1.5, 1.5, "FD");
+
+      // Caixinha de check no canto superior esquerdo
+      doc.setDrawColor(180,180,180); doc.setLineWidth(0.3);
+      doc.rect(cx+1.5, cy+1.5, 4, 4);
+
+      // Código da figurinha
+      doc.setTextColor(...BLACK); doc.setFontSize(6.5); doc.setFont("helvetica","bold");
+      doc.text(code, cx+CW/2, cy+CH-2, {align:"center"});
+
+      col++;
+      if (col>=COLS) { col=0; cx=10; cy+=CH+GAP; }
+      else { cx+=CW+GAP; }
+    });
+
+    // Avançar linha se ficou no meio
+    if (col>0) { col=0; cx=10; cy+=CH+GAP; }
+    cy+=3;
   });
 
-  // ── RODAPÉ EM TODAS AS PÁGINAS ──
+  // ════════════════════════════════════════════
+  // PÁGINAS SEGUINTES: REPETIDAS
+  // ════════════════════════════════════════════
+  // Repetidas REAIS = count - 1 (desconta a original)
+  const totRep = secoes.flatMap(s=>s.stickers)
+    .filter(c=>(stickers[c]||0)>=2)
+    .reduce((a,c)=>a+(stickers[c]-1),0);
+
+  doc.addPage();
+  pageHeader("Figurinhas REPETIDAS para trocar", "Total: "+totRep+" repetidas disponíveis");
+
+  cy=24; cx=10; col=0;
+
+  const newPageRep = () => {
+    doc.addPage();
+    pageHeader("Figurinhas REPETIDAS (cont.)", "Total: "+totRep+" repetidas disponíveis");
+    cy=24; cx=10; col=0;
+  };
+
+  secoes.forEach(s => {
+    // rep: apenas as que têm >=2, quantidade real = count-1
+    const rep = s.stickers.filter(c=>(stickers[c]||0)>=2);
+    if (rep.length===0) return;
+
+    const totalRepSec = rep.reduce((a,c)=>a+(stickers[c]-1),0);
+
+    if (cy > 278) newPageRep();
+    if (col > 0) { col=0; cx=10; cy+=CH+GAP; }
+    if (cy > 275) newPageRep();
+
+    // Cabeçalho da seleção
+    doc.setFillColor(...LGRAY);
+    doc.rect(10, cy, 190, 6, "F");
+    doc.setTextColor(...ORANGE[0]?ORANGE:ORANGE); doc.setFontSize(7); doc.setFont("helvetica","bold");
+    doc.setTextColor(140,80,0);
+    doc.text(s.id+" — "+s.label+(s.group?" (G"+s.group+")":""), 13, cy+4.3);
+    doc.setTextColor(...GRAY); doc.setFontSize(6.5);
+    doc.text(totalRepSec+" para trocar", 197, cy+4.3, {align:"right"});
+    cy+=8; cx=10; col=0;
+
+    rep.forEach(code => {
+      const qtdReal = stickers[code] - 1; // quantidade real para trocar
+      if (cy+CH > 286) newPageRep();
+
+      // Chip com quantidade real
+      doc.setFillColor(255,248,235);
+      doc.setDrawColor(180,100,0); doc.setLineWidth(0.3);
+      doc.roundedRect(cx, cy, CW, CH, 1.5, 1.5, "FD");
+
+      // Código
+      doc.setTextColor(...BLACK); doc.setFontSize(6.5); doc.setFont("helvetica","bold");
+      doc.text(code, cx+CW/2, cy+CH-2, {align:"center"});
+
+      // Quantidade real no topo direito
+      doc.setFillColor(180,100,0);
+      doc.roundedRect(cx+CW-5.5, cy+0.8, 5, 4, 1, 1, "F");
+      doc.setTextColor(...WHITE); doc.setFontSize(5.5); doc.setFont("helvetica","bold");
+      doc.text("x"+qtdReal, cx+CW-3, cy+3.5, {align:"center"});
+
+      col++;
+      if (col>=COLS) { col=0; cx=10; cy+=CH+GAP; }
+      else { cx+=CW+GAP; }
+    });
+
+    if (col>0) { col=0; cx=10; cy+=CH+GAP; }
+    cy+=3;
+  });
+
+  // Rodapé em todas as páginas
   const pages = doc.getNumberOfPages();
   for (let i=1; i<=pages; i++) {
     doc.setPage(i);
